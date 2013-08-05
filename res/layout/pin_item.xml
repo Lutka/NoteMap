@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pinItem"
+    android:layout_width="@dimen/pin_size"
+    android:layout_height="@dimen/pin_size"
+    android:scaleType="fitCenter"
+    android:src="@drawable/grocery" 
+    android:padding="8dp" >   
+
+</ImageView>

@@ -1,0 +1,24 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/deleteNote"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/delete_note"/>
+    <item
+        android:id="@+id/saveNote"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/save_note"/>
+    <item
+        android:id="@+id/undoChanges"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/undo_note"/>
+    <item
+        android:id="@+id/changePin"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/change_note_pin"/>
+
+</menu>
