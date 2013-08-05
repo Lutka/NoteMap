@@ -4,20 +4,17 @@
     <item
         android:id="@+id/action_delete"
         android:icon="@drawable/ic_action_delete"
-        android:title="@string/delete_note"
-        android:showAsAction="always">
+        android:showAsAction="always"
+        android:title="@string/delete_note">
     </item>
-    
-    <item 
+    <item
         android:id="@+id/action_change_pin"
         android:icon="@drawable/ic_action_change_pin"
         android:showAsAction="always"/>
-    
     <item
         android:id="@+id/action_edit"
         android:icon="@drawable/ic_action_edit"
-        android:title="@string/edit_note"
-        android:showAsAction="always"/>
-        
+        android:showAsAction="always"
+        android:title="@string/edit_note"/>
 
 </menu>

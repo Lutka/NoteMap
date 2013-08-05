@@ -1,20 +1,24 @@
-  <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/googleMap"
-    class="com.google.android.gms.maps.SupportMapFragment"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" /> 
- 
-<!-- < FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-     android:layout_width="match_parent"
-     android:layout_height="match_parent"
-     android:id="@+id/googleMap" /> -->
-     
-   <!--   <TextView android:id="@+id/tvZoom"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         
-         />
-     
-     </fragment> -->
-     
-     
+    android:layout_height="match_parent" 
+    android:animateLayoutChanges="true">
+
+    <fragment
+        android:id="@+id/googleMap"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        class="com.google.android.gms.maps.SupportMapFragment" />
+
+    <FrameLayout
+        android:id="@+id/layout_undo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" 
+        android:layout_margin="10dp"
+        android:visibility="gone">
+
+        <include layout="@layout/undo_action" />
+    </FrameLayout>
+
+</RelativeLayout>

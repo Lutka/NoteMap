@@ -19,8 +19,10 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -219,6 +221,7 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 	@Override
 	public void onMapClick(LatLng location)
 	{
+		dismissUndoDialog();
 		if (addingNote == true)
 		{
 			onMapLongClick(location);			
@@ -248,13 +251,14 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 	/*
 	 * Removes note from the list
 	 */
-	public void deleteNote(Note note)
+	public void deleteNote(final Note note)
 	{
 		listOfNotes.remove(note);
 		
 		Marker marker = note.noteMarker;
 		hashMapOfNotes.remove(marker);
 		note.removeFromMap();
+		
 		try
 		{
 			saveToFile();
@@ -263,6 +267,26 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		showUndoButton("Note deleted", new OnClickListener()
+		{
+			
+			@Override
+			public void onClick(View v)
+			{
+				addNote(note);
+				try
+				{
+					saveToFile();
+				} catch (IOException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+
+		
 	}
 
 	// what happen when a info related to marker is clicked
@@ -436,6 +460,7 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 	@Override
 	public void onMapLongClick(LatLng location)
 	{
+		dismissUndoDialog();
 		Note newNote = new Note ("Note", "", "", location);	
 		
 		addNote(newNote);
@@ -485,6 +510,7 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 	@Override
 	public boolean onMarkerClick(Marker marker)
 	{
+		dismissUndoDialog();
 		final Note note = hashMapOfNotes.get(marker);
 		startActionMode(new Callback()
 		{
@@ -547,6 +573,35 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 			}
 		});
 		return false;
+	}
+	
+	private void showUndoButton(CharSequence undoText, final OnClickListener onUndoClickListener)
+	{
+		final View view = findViewById(R.id.layout_undo);
+		final View btnUndo = view.findViewById(R.id.btnUndo);
+		TextView tvUndoText = (TextView) view.findViewById(R.id.tvUndoText);
+		tvUndoText.setText(undoText);
+		
+		btnUndo.setOnClickListener(new OnClickListener()
+		{
+			
+			@Override
+			public void onClick(View v)
+			{
+				onUndoClickListener.onClick(v);
+				dismissUndoDialog();
+			}
+		});
+		
+		view.setVisibility(View.VISIBLE);
+	}
+	
+	private void dismissUndoDialog()
+	{
+		final View view = findViewById(R.id.layout_undo);
+		final View btnUndo = view.findViewById(R.id.btnUndo);
+		view.setVisibility(View.GONE);
+		btnUndo.setOnClickListener(null);
 	}
 
 }

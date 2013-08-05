@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" 
+    android:layout_gravity="center_horizontal"
+    android:gravity="center"
+    android:padding="3dp"
+    android:background="@drawable/rectangle"
+    >
+
+    <TextView
+        android:id="@+id/tvUndoText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Item deleted" 
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_margin="5dp"/>
+    
+    <View
+			android:layout_marginRight="8dp"
+			android:layout_marginLeft="8dp"
+			android:layout_marginTop="1dp"
+			android:layout_marginBottom="1dp"
+			android:layout_width="1dp"
+			android:layout_height="fill_parent"
+			android:background="#000"/>
+
+    <TextView
+        android:id="@+id/btnUndo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_action_undo_black"
+        android:gravity="center"
+        android:text="@string/undo"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+</LinearLayout>
