@@ -31,6 +31,7 @@ import android.view.Menu;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuItem;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.internal.j;
@@ -68,6 +69,8 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 	private int currentZoom = 10;
 	
 	public static MapActivity instance;
+	
+	boolean addingNote = false;
 		
 	//savedInstanceState - there are parameters which are saved from previous instance of this activity eg.particular chosen or inputed values
 	@Override
@@ -94,6 +97,23 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 			e.printStackTrace();
 		}
 	}
+	
+	
+	@Override
+	public boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu menu)
+	{
+		super.onCreateOptionsMenu(menu);		
+		getSupportMenuInflater().inflate(R.menu.activity_map, menu);
+		
+		if(addingNote)
+		{
+			menu.findItem(R.id.action_cancel).setVisible(true);
+			menu.findItem(R.id.action_create).setVisible(false);
+		}
+		return true;
+	}
+
+	
 	/**
 	 * Initialize a setup of the map and implements necessary "Listeners"
 	 * 
@@ -155,7 +175,32 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 		//googleMap.setOnMarkerClickListener(this);
 		googleMap.setOnCameraChangeListener(this);
 		
+		googleMap.setOnMapClickListener(this);
 		
+		
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch(item.getItemId())
+		{
+			case R.id.action_create:
+			{
+				addingNote = true;
+				Toast.makeText(this, "Tap on the map to add note", Toast.LENGTH_SHORT).show();
+				invalidateOptionsMenu();
+				return true;
+			}
+			case R.id.action_cancel:
+			{
+				addingNote = false;
+				invalidateOptionsMenu();
+				return true;
+			}
+		}
+		
+		return super.onOptionsItemSelected(item);
 	}
 
 	//that what should happen when a location change - currently not working
@@ -180,9 +225,13 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 
 	// action taken when a map was clicked
 	@Override
-	public void onMapClick(LatLng latLong)
+	public void onMapClick(LatLng location)
 	{
-				
+		if (addingNote == true)
+		{
+			onMapLongClick(location);			
+			addingNote = false;
+		}				
 	}
 	
 	/**
@@ -196,6 +245,8 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 		// link note with its corresponding marker
 		hashMapOfNotes.put(mapMarker, note);
 		note.updateMarker();
+		
+		invalidateOptionsMenu();
 	}
 	
 	/*
@@ -343,6 +394,7 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 			}
 		}
 	}
+
 	
 	// writes all notes to file
 	public void saveToFile() throws IOException
