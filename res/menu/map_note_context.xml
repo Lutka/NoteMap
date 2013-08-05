@@ -8,10 +8,16 @@
         android:showAsAction="always">
     </item>
     
+    <item 
+        android:id="@+id/action_change_pin"
+        android:icon="@drawable/ic_action_change_pin"
+        android:showAsAction="always"/>
+    
     <item
         android:id="@+id/action_edit"
         android:icon="@drawable/ic_action_edit"
-        android:title="@string/edit_note"/>
+        android:title="@string/edit_note"
+        android:showAsAction="always"/>
         
 
 </menu>

@@ -18,6 +18,9 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -252,6 +255,14 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 		Marker marker = note.noteMarker;
 		hashMapOfNotes.remove(marker);
 		note.removeFromMap();
+		try
+		{
+			saveToFile();
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	// what happen when a info related to marker is clicked
@@ -512,6 +523,21 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 						openNote(note);
 						break;
 						
+					case R.id.action_change_pin:
+						note.showPinDialog(MapActivity.this, new OnItemClickListener()
+						{
+
+							@Override
+							public void onItemClick(AdapterView<?> arg0,
+									View arg1, int arg2, long arg3)
+							{
+								
+								note.updateMarker();
+							}
+						});
+						break;
+						
+					
 					default:
 						return false;
 					

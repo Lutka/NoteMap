@@ -5,10 +5,18 @@ import java.io.IOException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.GridView;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptor;
@@ -287,6 +295,32 @@ public class Note
 		
 		noteLocation = new LatLng (jsonObject.getDouble("latitude")
 				,jsonObject.getDouble("longitude"));	
+	}
+	
+	void showPinDialog(Context context, final OnItemClickListener itemClickListener)
+	{
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View dialogView = inflater.inflate(R.layout.pin_selection_dialog, null);
+		GridView gridIcons = (GridView) dialogView.findViewById(R.id.gridIcons);
+		gridIcons.setAdapter(new PinAdapter(context, Note.pinIds));
+		
+		AlertDialog.Builder builder = new Builder(context);
+		builder.setView(dialogView).setTitle(R.string.change_note_pin);		
+		builder.setView(dialogView).setNegativeButton(android.R.string.cancel, null);
+		final Dialog dialog = builder.create();
+		
+		gridIcons.setOnItemClickListener(new OnItemClickListener() 
+		{
+			@Override
+			public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) 
+			{
+				Integer pinName = (Integer) adapterView.getItemAtPosition(position);
+				setPin(pinName);
+				itemClickListener.onItemClick(adapterView, view, position, id);
+				dialog.dismiss();
+			}
+		});
+		dialog.show();
 	}
 
 }
