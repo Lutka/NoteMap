@@ -20,7 +20,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -258,6 +259,15 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 		hashMapOfNotes.remove(marker);
 		note.removeFromMap();
 		
+		try
+		{
+			saveToFile();
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		showUndoButton("Note removed", new OnClickListener()
 		{
 			
@@ -267,6 +277,8 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 				addNote(note);
 			}
 		});
+
+		
 	}
 
 	// what happen when a info related to marker is clicked
@@ -529,6 +541,21 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 						openNote(note);
 						break;
 						
+					case R.id.action_change_pin:
+						note.showPinDialog(MapActivity.this, new OnItemClickListener()
+						{
+
+							@Override
+							public void onItemClick(AdapterView<?> arg0,
+									View arg1, int arg2, long arg3)
+							{
+								
+								note.updateMarker();
+							}
+						});
+						break;
+						
+					
 					default:
 						return false;
 					

@@ -8,8 +8,13 @@
         android:title="@string/delete_note">
     </item>
     <item
+        android:id="@+id/action_change_pin"
+        android:icon="@drawable/ic_action_change_pin"
+        android:showAsAction="always"/>
+    <item
         android:id="@+id/action_edit"
         android:icon="@drawable/ic_action_edit"
+        android:showAsAction="always"
         android:title="@string/edit_note"/>
 
 </menu>
