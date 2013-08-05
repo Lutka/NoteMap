@@ -10,7 +10,8 @@
     <item
         android:id="@+id/action_change_pin"
         android:icon="@drawable/ic_action_change_pin"
-        android:showAsAction="always"/>
+        android:showAsAction="always"
+        android:title="@string/change_note_pin"/>
     <item
         android:id="@+id/action_edit"
         android:icon="@drawable/ic_action_edit"

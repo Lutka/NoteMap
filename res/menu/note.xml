@@ -16,8 +16,8 @@
         android:id="@+id/undoChanges"
         android:orderInCategory="100"
         android:showAsAction="ifRoom"
-        android:title="@string/undo_note"
-        android:icon="@drawable/ic_action_undo"/>
+        android:title="@string/cancel_note_changes"
+        android:icon="@drawable/ic_action_cancel"/>
     <item
         android:id="@+id/changePin"
         android:orderInCategory="100"
