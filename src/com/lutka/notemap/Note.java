@@ -31,6 +31,7 @@ public class Note
 	int pinId = 0;
 	
 	public static final Integer [] pinIds = { 
+		R.drawable.pin_questionmark,
 		R.drawable.pin_black,
 		R.drawable.pin_blue,
 		R.drawable.pin_blue1,
@@ -54,7 +55,8 @@ public class Note
 		R.drawable.pin_memo,
 		R.drawable.pin_paper,
 		R.drawable.pin_tools,
-		R.drawable.pin_train};
+		R.drawable.pin_train,
+		};
 	
 	public static Drawable getPinDrawable(Context contex, int pinName) throws IOException
 	{
