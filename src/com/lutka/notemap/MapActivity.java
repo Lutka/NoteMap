@@ -268,13 +268,21 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 			e.printStackTrace();
 		}
 		
-		showUndoButton("Note removed", new OnClickListener()
+		showUndoButton("Note deleted", new OnClickListener()
 		{
 			
 			@Override
 			public void onClick(View v)
 			{
 				addNote(note);
+				try
+				{
+					saveToFile();
+				} catch (IOException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 
