@@ -20,6 +20,10 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.ActionMode;
+import com.actionbarsherlock.view.ActionMode.Callback;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -28,15 +32,18 @@ import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
 import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
-public class MapActivity extends SherlockFragmentActivity implements OnMapClickListener, OnInfoWindowClickListener, OnMapLongClickListener, OnMarkerDragListener, OnCameraChangeListener 
+public class MapActivity extends SherlockFragmentActivity implements OnMapClickListener, OnInfoWindowClickListener, OnMapLongClickListener, OnMarkerDragListener, OnCameraChangeListener, OnMarkerClickListener
+
 {
 	public GoogleMap googleMap;
+	ActionMode actionMode = null;
 	
 	ArrayList<Note> listOfNotes = new ArrayList<Note>();
 	HashMap<Marker, Note> hashMapOfNotes = new HashMap<Marker, Note>();
@@ -128,13 +135,13 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 				
 		// "this" is used to have the "implements onMyLocationChangeListener" as a parameter
 		//googleMap.setOnMyLocationChangeListener(this); 
-		//googleMap.setOnMapClickListener(this);
+		googleMap.setOnMapClickListener(this);
 		//googleMap.setOnMarkerClickListener(this);
 		googleMap.setOnInfoWindowClickListener(this); //infoWindow - chmurka z notatka
 		
 		googleMap.setOnMapLongClickListener(this);
 		googleMap.setOnMarkerDragListener(this);
-		//googleMap.setOnMarkerClickListener(this);
+		googleMap.setOnMarkerClickListener(this);
 		googleMap.setOnCameraChangeListener(this);
 		
 		
@@ -164,7 +171,10 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 	@Override
 	public void onMapClick(LatLng latLong)
 	{
-				
+		if (actionMode != null)
+		{
+			actionMode.finish();
+		}
 	}
 	
 	/**
@@ -205,6 +215,9 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 	 */
 	public void openNote(Note note)
 	{
+		if (actionMode != null) 
+			actionMode.finish();
+		
 		// intent has a bundle and by intent.putExtra it allows to put values into the bundle
 		Intent intent = new Intent(this, NoteActivity.class);
 		
@@ -391,8 +404,8 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 	@Override
 	public void onMarkerDragStart(Marker marker)
 	{
-		// TODO Auto-generated method stub
-		
+		if (actionMode != null)
+			actionMode.finish();
 	}
 		
 	@Override
@@ -403,6 +416,58 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 			currentZoom = (int) position.zoom;
 			// zoomOfCamera = String.valueOf(currentZoom);
 		}		
+	}
+
+	@Override
+	public boolean onMarkerClick(Marker marker)
+	{
+		final Note note = hashMapOfNotes.get(marker);
+		startActionMode(new Callback()
+		{
+			
+			@Override
+			public boolean onPrepareActionMode(ActionMode mode, Menu menu)
+			{
+				return false;
+			}
+			
+			@Override
+			public void onDestroyActionMode(ActionMode mode)
+			{
+				actionMode = null;
+				
+			}
+			
+			@Override
+			public boolean onCreateActionMode(ActionMode mode, Menu menu)
+			{
+				getSupportMenuInflater().inflate(R.menu.map_note_context, menu);
+				actionMode = mode;
+				return true;
+			}
+			
+			@Override
+			public boolean onActionItemClicked(ActionMode mode, MenuItem item)
+			{
+				switch (item.getItemId())
+				{
+					case R.id.action_delete:
+						deleteNote(note);
+						break;
+						
+					case R.id.action_edit:
+						openNote(note);
+						break;
+						
+					default:
+						return false;
+					
+				}
+				mode.finish();
+				return true;
+			}
+		});
+		return false;
 	}
 
 }

@@ -14,4 +14,5 @@
     <string name =  "select_pin">Select pin</string>
 	<string name = "delete_note_dialog">This note will be deleted</string>
     <string name = "delete_dialog_title">Delete</string>
+    <string name="edit_note">Edit note</string>
 </resources>
