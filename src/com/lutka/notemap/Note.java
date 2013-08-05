@@ -35,7 +35,6 @@ public class Note
 		R.drawable.pin_blue,
 		R.drawable.pin_blue1,
 		R.drawable.pin_blue2,
-		R.drawable.pin_blue2,
 		R.drawable.pin_car,
 		R.drawable.pin_gift,
 		R.drawable.pin_green,
