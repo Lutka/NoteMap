@@ -32,23 +32,11 @@ public class Note
 	
 	public static final Integer [] pinIds = { 
 		R.drawable.pin_questionmark,
-		R.drawable.pin_black,
-		R.drawable.pin_blue,
-		R.drawable.pin_blue1,
-		R.drawable.pin_blue2,
 		R.drawable.pin_car,
 		R.drawable.pin_gift,
-		R.drawable.pin_green,
-		R.drawable.pin_green1,
 		R.drawable.pin_key,
 		R.drawable.pin_music,
-		R.drawable.pin_orange,
-		R.drawable.pin,
-		R.drawable.pin_pink,
-		R.drawable.pin_red,
 		R.drawable.pin_shopping,
-		R.drawable.pin_violet,
-		R.drawable.pin_yellow,
 		R.drawable.pin_anchor,
 		R.drawable.pin_basket,
 		R.drawable.pin_info,
@@ -56,6 +44,19 @@ public class Note
 		R.drawable.pin_paper,
 		R.drawable.pin_tools,
 		R.drawable.pin_train,
+		
+		R.drawable.pin_black,
+		R.drawable.pin_blue,
+		R.drawable.pin_blue1,
+		R.drawable.pin_blue2,
+		R.drawable.pin_green,
+		R.drawable.pin_green1,
+		R.drawable.pin_orange,
+		R.drawable.pin,
+		R.drawable.pin_pink,
+		R.drawable.pin_red,		
+		R.drawable.pin_violet,
+		R.drawable.pin_yellow		
 		};
 	
 	public static Drawable getPinDrawable(Context contex, int pinName) throws IOException
