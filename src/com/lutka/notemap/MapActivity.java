@@ -220,6 +220,7 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 	@Override
 	public void onMapClick(LatLng location)
 	{
+		dismissUndoDialog();
 		if (addingNote == true)
 		{
 			onMapLongClick(location);			
@@ -439,6 +440,7 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 	@Override
 	public void onMapLongClick(LatLng location)
 	{
+		dismissUndoDialog();
 		Note newNote = new Note ("Note", "", "", location);	
 		
 		addNote(newNote);
@@ -488,6 +490,7 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 	@Override
 	public boolean onMarkerClick(Marker marker)
 	{
+		dismissUndoDialog();
 		final Note note = hashMapOfNotes.get(marker);
 		startActionMode(new Callback()
 		{
@@ -551,22 +554,19 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 			public void onClick(View v)
 			{
 				onUndoClickListener.onClick(v);
-				view.setVisibility(View.GONE);
-				btnUndo.setOnClickListener(null);
-			}
-		});
-		
-		view.setOnClickListener(new OnClickListener()
-		{			
-			@Override
-			public void onClick(View v)
-			{
-				view.setVisibility(View.GONE);
-				btnUndo.setOnClickListener(null);		
+				dismissUndoDialog();
 			}
 		});
 		
 		view.setVisibility(View.VISIBLE);
+	}
+	
+	private void dismissUndoDialog()
+	{
+		final View view = findViewById(R.id.layout_undo);
+		final Button btnUndo = (Button) view.findViewById(R.id.btnUndo);
+		view.setVisibility(View.GONE);
+		btnUndo.setOnClickListener(null);
 	}
 
 }
