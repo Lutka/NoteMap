@@ -178,13 +178,13 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 			{
 				addingNote = true;
 				Toast.makeText(this, "Tap on the map to add note", Toast.LENGTH_SHORT).show();
-				invalidateOptionsMenu();
+				supportInvalidateOptionsMenu();
 				return true;
 			}
 			case R.id.action_cancel:
 			{
 				addingNote = false;
-				invalidateOptionsMenu();
+				supportInvalidateOptionsMenu();
 				return true;
 			}
 		}
@@ -220,7 +220,7 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 		{
 			onMapLongClick(location);			
 			addingNote = false;
-			invalidateOptionsMenu();
+			supportInvalidateOptionsMenu();
 		}				
 
 		if (actionMode != null)
