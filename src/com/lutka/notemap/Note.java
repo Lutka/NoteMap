@@ -46,7 +46,6 @@ public class Note
 		R.drawable.pin_pink,
 		R.drawable.pin_red,
 		R.drawable.pin_shopping,
-		R.drawable.pin_tools,
 		R.drawable.pin_violet,
 		R.drawable.pin_yellow,
 		R.drawable.pin_anchor,
