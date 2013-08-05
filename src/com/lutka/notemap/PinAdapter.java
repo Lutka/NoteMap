@@ -12,19 +12,19 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
-public class PinAdapter extends ArrayAdapter<String>
+public class PinAdapter extends ArrayAdapter<Integer>
 {
 	Context context;
-	public PinAdapter(Context context, int resource, int textViewResourceId, String[] pinNames) 
+	public PinAdapter(Context context, int resource, int textViewResourceId, Integer[] pins) 
 	{		
-		super(context, resource, textViewResourceId, pinNames);
+		super(context, resource, textViewResourceId, pins);
 		this.context = context;
 		// TODO Auto-generated constructor stub
 	}
 	
-	public PinAdapter(Context context, String[] pinNames) 
+	public PinAdapter(Context context, Integer[] pins) 
 	{
-		this(context, R.layout.pin_item, android.R.id.text1, pinNames);
+		this(context, R.layout.pin_item, android.R.id.text1, pins);
 		
 	}
 	

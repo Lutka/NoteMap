@@ -91,7 +91,7 @@ public class NoteActivity extends SherlockActivity
 		LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
 		View dialogView = inflater.inflate(R.layout.pin_selection_dialog, null);
 		GridView gridIcons = (GridView) dialogView.findViewById(R.id.gridIcons);
-		gridIcons.setAdapter(new PinAdapter(this, Note.pinNames));
+		gridIcons.setAdapter(new PinAdapter(this, Note.pinIds));
 		
 		AlertDialog.Builder builder = new Builder(this);
 		builder.setView(dialogView).setTitle(R.string.change_note_pin);		
@@ -103,8 +103,8 @@ public class NoteActivity extends SherlockActivity
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) 
 			{
-				String pinName = adapterView.getItemAtPosition(position).toString();
-				currentNote.setPinName(pinName);
+				Integer pinName = (Integer) adapterView.getItemAtPosition(position);
+				currentNote.setPin(pinName);
 				updateIcon();
 				dialog.dismiss();
 			}

@@ -1,9 +1,6 @@
 package com.lutka.notemap;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-import java.util.Locale;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,8 +8,6 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
-import android.location.Geocoder;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -31,24 +26,39 @@ public class Note
 	String noteSubTitle;
 	Marker noteMarker = null;
 	//int cameraZoom;                  
+
+	// holds pin id in the array
+	int pinId = 0;
 	
-	String pinName = "red.png";
+	public static final Integer [] pinIds = { 
+		R.drawable.black,
+		R.drawable.blue,
+		R.drawable.blue1,
+		R.drawable.blue2,
+		R.drawable.blue2,
+		R.drawable.car,
+		R.drawable.gift,
+		R.drawable.green,
+		R.drawable.green1,
+		R.drawable.key,
+		R.drawable.music,
+		R.drawable.orange,
+		R.drawable.pin,
+		R.drawable.pink,
+		R.drawable.red,
+		R.drawable.shopping_cart,
+		R.drawable.tools,
+		R.drawable.violet,
+		R.drawable.yellow};
 	
-	public static final String [] pinNames = {"blue.png", "green.png", "red.png", 
-											"blue1.png","green1.png", "orange.png",  
-											"blue2.png", "yellow.png", "pink.png",
-											"violet.png", "brown.png", "black.png","car.png", "gift.png", "key.png", "music.png", "tools.png", "shopping_cart.png" };
-	
-	public static Drawable getPinDrawable(Context contex, String pinName) throws IOException
+	public static Drawable getPinDrawable(Context contex, int pinName) throws IOException
 	{
-		InputStream inputStream = contex.getAssets().open("pins/"+pinName);
-		return Drawable.createFromStream(inputStream, null);
+		return contex.getResources().getDrawable(pinName);
 	}
 	
 	public Drawable getPinDrawable(Context context) throws IOException
 	{
-		if(pinName == null) return null;
-		return getPinDrawable(context, pinName);
+		return getPinDrawable(context, pinIds[pinId]);
 	}
 		
 	public Note(String noteTitle, String noteSubTitle, String noteDescription,LatLng noteLocation)
@@ -105,8 +115,8 @@ public class Note
 			
 			noteMarker.setTitle(noteTitle);
 			noteMarker.setSnippet(snipper);	
-			//change the pin only if the pin isn't default
-			if(pinName != null)noteMarker.setIcon(getBitmapDescriptor());
+
+			noteMarker.setIcon(getBitmapDescriptor());
 			
 			if(noteMarker.isInfoWindowShown())
 			{
@@ -118,15 +128,8 @@ public class Note
 	
 	public BitmapDescriptor getBitmapDescriptor()
 	{
-		return BitmapDescriptorFactory.fromAsset(getPinName());
-	}
-	
-	public String getPinName() 
-	{
-		if(pinName == null) return null;		
-		else return "pins/"+pinName;
-	}
-	
+		return BitmapDescriptorFactory.fromResource(pinIds[pinId]);
+	}	
 	
 	public LatLng getNoteLocation()
 	{
@@ -146,10 +149,24 @@ public class Note
 	{
 		return noteDestription;
 	}
-	public void setPinName(String pinName) 
+	
+	
+	/**
+	 * Set pin resource to note
+	 * @param pin Pin resource
+	 */
+	public void setPin(int pin) 
 	{
-		this.pinName = pinName;
-		updateMarker();
+		for (int i=0; i < pinIds.length; i++)
+		{
+			if (pinIds[i] == pin)
+			{
+				this.pinId = i;
+				updateMarker();
+				return;
+			}
+		}
+		
 	}
 	
 	public void setNoteTitle(String noteTitle)
@@ -244,7 +261,7 @@ public class Note
 		jsonObject.put("title", noteTitle);
 		jsonObject.put("description", noteDestription);
 		jsonObject.put("subTitle", noteSubTitle);
-		jsonObject.put("pinName", pinName);
+		jsonObject.put("pin", pinId);
 		jsonObject.put("latitude", noteLocation.latitude);
 		jsonObject.put("longitude", noteLocation.longitude);
 		return jsonObject;
@@ -256,7 +273,10 @@ public class Note
 		noteDestription = jsonObject.getString("description");
 		noteSubTitle = jsonObject.getString("subTitle");
 		
-		if(jsonObject.has("pinName")) pinName = jsonObject.getString("pinName");
+		if(jsonObject.has("pin")) 
+		{
+			pinId = jsonObject.getInt("pin");
+		}
 		
 		noteLocation = new LatLng (jsonObject.getDouble("latitude")
 				,jsonObject.getDouble("longitude"));	
