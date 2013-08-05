@@ -88,28 +88,17 @@ public class NoteActivity extends SherlockActivity
 	
 	void showPinDialog()
 	{
-		LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-		View dialogView = inflater.inflate(R.layout.pin_selection_dialog, null);
-		GridView gridIcons = (GridView) dialogView.findViewById(R.id.gridIcons);
-		gridIcons.setAdapter(new PinAdapter(this, Note.pinIds));
-		
-		AlertDialog.Builder builder = new Builder(this);
-		builder.setView(dialogView).setTitle(R.string.change_note_pin);		
-		builder.setView(dialogView).setNegativeButton(android.R.string.cancel, null);
-		final Dialog dialog = builder.create();
-		
-		gridIcons.setOnItemClickListener(new OnItemClickListener() 
+		currentNote.showPinDialog(this, new OnItemClickListener()
 		{
+
 			@Override
-			public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) 
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3)
 			{
-				Integer pinName = (Integer) adapterView.getItemAtPosition(position);
-				currentNote.setPin(pinName);
 				updateIcon();
-				dialog.dismiss();
+				
 			}
-		});
-		dialog.show();
+		});		
 	}
 	
 	private void setupActionBar()
