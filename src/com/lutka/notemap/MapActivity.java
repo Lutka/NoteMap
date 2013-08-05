@@ -220,6 +220,7 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 		{
 			onMapLongClick(location);			
 			addingNote = false;
+			invalidateOptionsMenu();
 		}				
 
 		if (actionMode != null)
@@ -238,9 +239,7 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 		
 		// link note with its corresponding marker
 		hashMapOfNotes.put(mapMarker, note);
-		note.updateMarker();
-		
-		invalidateOptionsMenu();
+		note.updateMarker();		
 	}
 	
 	/*
