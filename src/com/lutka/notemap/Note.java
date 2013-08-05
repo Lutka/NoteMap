@@ -49,7 +49,14 @@ public class Note
 		R.drawable.shopping_cart,
 		R.drawable.tools,
 		R.drawable.violet,
-		R.drawable.yellow};
+		R.drawable.yellow,
+		R.drawable.anchor,
+		R.drawable.basket,
+		R.drawable.info,
+		R.drawable.memo,
+		R.drawable.paper,
+		R.drawable.tools,
+		R.drawable.train};
 	
 	public static Drawable getPinDrawable(Context contex, int pinName) throws IOException
 	{
