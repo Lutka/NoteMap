@@ -543,7 +543,7 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 	private void showUndoButton(CharSequence undoText, final OnClickListener onUndoClickListener)
 	{
 		final View view = findViewById(R.id.layout_undo);
-		final Button btnUndo = (Button) view.findViewById(R.id.btnUndo);
+		final View btnUndo = view.findViewById(R.id.btnUndo);
 		TextView tvUndoText = (TextView) view.findViewById(R.id.tvUndoText);
 		tvUndoText.setText(undoText);
 		
@@ -564,7 +564,7 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 	private void dismissUndoDialog()
 	{
 		final View view = findViewById(R.id.layout_undo);
-		final Button btnUndo = (Button) view.findViewById(R.id.btnUndo);
+		final View btnUndo = view.findViewById(R.id.btnUndo);
 		view.setVisibility(View.GONE);
 		btnUndo.setOnClickListener(null);
 	}

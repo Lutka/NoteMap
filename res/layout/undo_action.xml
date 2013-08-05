@@ -4,8 +4,9 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal" 
     android:layout_gravity="center_horizontal"
+    android:gravity="center"
     android:padding="3dp"
-    android:background="#ccc"
+    android:background="@drawable/rectangle"
     >
 
     <TextView
@@ -13,13 +14,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Item deleted" 
-        android:textAppearance="?android:attr/textAppearanceMedium"/>
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_margin="5dp"/>
 
-    <Button
+    <TextView
         android:id="@+id/btnUndo"
-        style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Undo" />
+        android:text="Undo" 
+        android:drawableLeft="@drawable/undo"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:gravity="center"/>
 
 </LinearLayout>
