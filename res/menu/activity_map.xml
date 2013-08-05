@@ -13,5 +13,13 @@
         android:visible="false"
         android:title="@string/cancelNote"
         android:icon="@drawable/ic_action_cancel"/>
+    
+        <item
+        android:id="@+id/action_add_note_here"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:visible="false"
+        android:title="@string/addNoteHere"
+        android:icon="@drawable/ic_action_create_here"/>
 
 </menu>

@@ -102,6 +102,7 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 		if(addingNote)
 		{
 			menu.findItem(R.id.action_cancel).setVisible(true);
+			menu.findItem(R.id.action_add_note_here).setVisible(true);
 			menu.findItem(R.id.action_create).setVisible(false);
 		}
 		return true;
@@ -180,18 +181,32 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 		switch(item.getItemId())
 		{
 			case R.id.action_create:
-			{
 				addingNote = true;
 				Toast.makeText(this, "Tap on the map to add note", Toast.LENGTH_SHORT).show();
 				supportInvalidateOptionsMenu();
 				return true;
-			}
+			
 			case R.id.action_cancel:
-			{
 				addingNote = false;
 				supportInvalidateOptionsMenu();
 				return true;
-			}
+			
+			
+			case R.id.action_add_note_here:
+				if(googleMap.getMyLocation() != null)
+				{
+					LatLng myLocation =new LatLng(googleMap.getMyLocation().getLatitude(),
+						googleMap.getMyLocation().getLongitude());
+				
+					onMapLongClick(myLocation);						
+				}
+				else
+				{
+					Toast.makeText(this, "Location unavailable", Toast.LENGTH_SHORT).show();					
+				}
+				addingNote = false;
+				supportInvalidateOptionsMenu();
+				return true;
 		}
 		
 		return super.onOptionsItemSelected(item);

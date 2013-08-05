@@ -19,4 +19,8 @@
    	<string name = "cancelNote">Cancel</string>
     <string name="edit_note">Edit note</string>
     <string name="undo">Undo</string>
+
+    <string name = "edit_note">Edit note</string>
+    <string name = "addNoteHere" >At my location</string>
+
 </resources>
