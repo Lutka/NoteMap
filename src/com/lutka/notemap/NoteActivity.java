@@ -144,6 +144,7 @@ public class NoteActivity extends SherlockActivity
 				break;
 				
 			case R.id.undoChanges: // undo
+				setResult(RESULT_CANCELED);
 				finish(); 
 				break;
 				
