@@ -297,6 +297,11 @@ public class Note
 				,jsonObject.getDouble("longitude"));	
 	}
 	
+	public boolean isEmpty()
+	{
+		return noteDestription.isEmpty() && noteSubTitle.isEmpty();
+	}
+	
 	void showPinDialog(Context context, final OnItemClickListener itemClickListener)
 	{
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
