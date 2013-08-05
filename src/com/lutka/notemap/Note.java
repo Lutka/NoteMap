@@ -52,7 +52,6 @@ public class Note
 		R.drawable.pin_green,
 		R.drawable.pin_green1,
 		R.drawable.pin_orange,
-		R.drawable.pin,
 		R.drawable.pin_pink,
 		R.drawable.pin_red,		
 		R.drawable.pin_violet,
