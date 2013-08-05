@@ -18,6 +18,10 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -245,13 +249,23 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 	/*
 	 * Removes note from the list
 	 */
-	public void deleteNote(Note note)
+	public void deleteNote(final Note note)
 	{
 		listOfNotes.remove(note);
 		
 		Marker marker = note.noteMarker;
 		hashMapOfNotes.remove(marker);
 		note.removeFromMap();
+		
+		showUndoButton("Note removed", new OnClickListener()
+		{
+			
+			@Override
+			public void onClick(View v)
+			{
+				addNote(note);
+			}
+		});
 	}
 
 	// what happen when a info related to marker is clicked
@@ -521,6 +535,38 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 			}
 		});
 		return false;
+	}
+	
+	private void showUndoButton(CharSequence undoText, final OnClickListener onUndoClickListener)
+	{
+		final View view = findViewById(R.id.layout_undo);
+		final Button btnUndo = (Button) view.findViewById(R.id.btnUndo);
+		TextView tvUndoText = (TextView) view.findViewById(R.id.tvUndoText);
+		tvUndoText.setText(undoText);
+		
+		btnUndo.setOnClickListener(new OnClickListener()
+		{
+			
+			@Override
+			public void onClick(View v)
+			{
+				onUndoClickListener.onClick(v);
+				view.setVisibility(View.GONE);
+				btnUndo.setOnClickListener(null);
+			}
+		});
+		
+		view.setOnClickListener(new OnClickListener()
+		{			
+			@Override
+			public void onClick(View v)
+			{
+				view.setVisibility(View.GONE);
+				btnUndo.setOnClickListener(null);		
+			}
+		});
+		
+		view.setVisibility(View.VISIBLE);
 	}
 
 }
