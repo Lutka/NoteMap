@@ -17,5 +17,5 @@
     
     <string name = "addNote">Create note</string>
    	<string name = "cancelNote">Cancel</string>
-    
+    <string name="edit_note">Edit note</string>
 </resources>
