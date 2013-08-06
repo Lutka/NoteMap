@@ -11,6 +11,7 @@ import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -299,7 +300,8 @@ public class Note
 	
 	public boolean isEmpty()
 	{
-		return noteDestription.isEmpty() && noteSubTitle.isEmpty();
+//		return noteDestription.isEmpty() && noteSubTitle.isEmpty();
+		return TextUtils.isEmpty(noteDestription) && TextUtils.isEmpty(noteSubTitle);
 	}
 	
 	void showPinDialog(Context context, final OnItemClickListener itemClickListener)
