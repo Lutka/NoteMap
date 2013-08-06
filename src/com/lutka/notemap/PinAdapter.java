@@ -19,7 +19,7 @@ public class PinAdapter extends ArrayAdapter<Integer>
 	{		
 		super(context, resource, textViewResourceId, pins);
 		this.context = context;
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	public PinAdapter(Context context, Integer[] pins) 
@@ -40,7 +40,7 @@ public class PinAdapter extends ArrayAdapter<Integer>
 			pinImageView.setImageDrawable(Note.getPinDrawable(context, getItem(position)));
 		} catch (IOException e) 
 		{
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		
