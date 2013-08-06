@@ -17,6 +17,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -360,13 +361,14 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 						String content = bundle.getString(NoteActivity.EXTRA_NOTE_CONTENT);
 						String subtitle = bundle.getString(NoteActivity.EXTRA_NOTE_SUBTITLE);
 						
+						openedNote.setNoteDestription(content);
+						openedNote.setNoteSubTitle(subtitle);
+						
 						// updated made changes title and the content of a note
 												
 						// openedNote.setNoteTitle(title);
-						if(!content.isEmpty() || !subtitle.isEmpty())
-						{
-							openedNote.setNoteDestription(content);
-							openedNote.setNoteSubTitle(subtitle);
+						if(openedNote.isEmpty() == false)
+						{	
 							openedNote.updateMarker();
 						}
 						else
