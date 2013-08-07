@@ -183,7 +183,7 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 		{
 			case R.id.action_create:
 				addingNote = true;
-				Toast.makeText(this, "Tap on the map to add note", Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, R.string.tap_on_the_map, Toast.LENGTH_SHORT).show();
 				supportInvalidateOptionsMenu();
 				return true;
 			
@@ -203,7 +203,7 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 				}
 				else
 				{
-					Toast.makeText(this, "Location unavailable", Toast.LENGTH_SHORT).show();					
+					Toast.makeText(this, R.string.location_unavailable, Toast.LENGTH_SHORT).show();					
 				}
 				addingNote = false;
 				supportInvalidateOptionsMenu();

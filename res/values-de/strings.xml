@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name = "app_name">Note Map</string>
+    <string name = "menu_settings">Einstellungen</string>
+    <string name = "action_settings">Einstellungen</string>
+    <string name = "title_activity_note">NoteActivity</string>
+    <string name = "hint_subtitle">Thema</string>
+    <string name = "hint_content">Inhalt</string>
+    <string name = "delete_note">Notize löschen</string>
+    <string name = "save_note">Notize speichern</string>
+    <string name = "cancel_note_changes">Änderungen stornieren</string>
+    <string name = "change_note_pin">Etikett ändern</string>
+    <string name =  "select_pin">Marker wählen </string>
+	<string name = "delete_note_dialog">Diese Notiz wird gelöscht</string>
+    <string name = "delete_dialog_title">Löschen</string>
+    
+    <string name = "addNote">Notize erschaffen</string>
+   	<string name = "cancelNote">Stornieren</string>
+    <string name="edit_note"> Notiz ändern</string>
+    <string name="undo">Löschen</string>
+    <string name = "addNoteHere"> An meinem Standort</string>
+    <string name = "tap_on_the_map">Tippen Sie auf die Karte, um eine Notiz hinzufügen</string>
+    <string name = "location_unavailable">Ort nicht verfügbar</string>
+
+</resources>
+

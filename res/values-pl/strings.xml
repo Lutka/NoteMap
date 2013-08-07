@@ -16,9 +16,12 @@
     <string name = "delete_dialog_title">Usuń</string>
     
     <string name = "addNote">Utwórz notatkę</string>
-   	<string name = "cancelNote">Cancel</string>
+   	<string name = "cancelNote">Anuluj</string>
     <string name = "edit_note">Edycja notatki</string>
     <string name = "undo">Cofnij</string>
     <string name = "addNoteHere" >W moim miejscu</string>
+    
+      <string name = "tap_on_the_map">Kiknij na mapę aby dodać notatkę</string>
+    <string name = "location_unavailable">Lokalizacja niedostępna</string>
     
 </resources>
