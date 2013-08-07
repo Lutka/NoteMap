@@ -120,21 +120,21 @@ public class NoteActivity extends SherlockActivity
 				onBackPressed();
 				break;
 				
-			case R.id.saveNote: // save
+			case R.id.action_save: // save
 				saveNote(); 
 				finish(); 
 				break;
 				
-			case R.id.undoChanges: // undo
+			case R.id.action_undo_changes: // undo
 				setResult(RESULT_CANCELED);
 				finish(); 
 				break;
 				
-			case R.id.changePin: // change pin
+			case R.id.action_change_pin: // change pin
 				showPinDialog(); 
 				break;
 				
-			case R.id.deleteNote: 
+			case R.id.action_delete: 
 				deleteNoteWindow();				
 				break;	
 		}

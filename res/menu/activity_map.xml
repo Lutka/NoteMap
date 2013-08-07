@@ -2,24 +2,22 @@
 
     <item
         android:id="@+id/action_create"
+        android:icon="@drawable/ic_action_add"
         android:orderInCategory="100"
         android:showAsAction="always"
-        android:title="@string/addNote"
-        android:icon="@drawable/ic_action_add"/>
+        android:title="@string/addNote"/>
     <item
         android:id="@+id/action_cancel"
+        android:icon="@drawable/ic_action_cancel"
         android:orderInCategory="100"
         android:showAsAction="always"
-        android:visible="false"
         android:title="@string/cancelNote"
-        android:icon="@drawable/ic_action_cancel"/>
-    
-        <item
+        android:visible="false"/>
+    <item
         android:id="@+id/action_add_note_here"
+        android:icon="@drawable/ic_action_create_here"
         android:orderInCategory="100"
         android:showAsAction="always"
-        android:visible="false"
         android:title="@string/addNoteHere"
-        android:icon="@drawable/ic_action_create_here"/>
-
+        android:visible="false"/>
 </menu>

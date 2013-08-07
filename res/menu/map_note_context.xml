@@ -1,2 +1,19 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <menu xmlns:android="http://schemas.android.com/apk/res/android"></menu>
+    <item
+        android:id="@+id/action_delete"
+        android:icon="@drawable/ic_action_delete"
+        android:showAsAction="always"
+        android:title="@string/delete_note"/>    
+    <item
+        android:id="@+id/action_change_pin"
+        android:icon="@drawable/ic_action_change_pin"
+        android:showAsAction="always"
+        android:title="@string/change_note_pin"/>
+    <item
+        android:id="@+id/action_edit"
+        android:icon="@drawable/ic_action_edit"
+        android:showAsAction="always"
+        android:title="@string/edit_note"/>
+
+</menu>
