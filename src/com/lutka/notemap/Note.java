@@ -54,17 +54,14 @@ public class Note
 		R.drawable.pin_tools,
 		R.drawable.pin_train,
 		
-		R.drawable.pin_black,
-		R.drawable.pin_blue,
-		R.drawable.pin_blue1,
-		R.drawable.pin_blue2,
-		R.drawable.pin_green,
-		R.drawable.pin_green1,
-		R.drawable.pin_orange,
-		R.drawable.pin_pink,
-		R.drawable.pin_red,		
-		R.drawable.pin_violet,
-		R.drawable.pin_yellow		
+		R.drawable.pin_android,
+		R.drawable.pin_bike,
+		R.drawable.pin_flower,
+		R.drawable.pin_food,
+		R.drawable.pin_fruit,
+		R.drawable.pin_heart,
+		R.drawable.pin_house,
+		R.drawable.pin_pet,
 		};
 	
 	public static Drawable getPinDrawable(Context contex, int pinName) throws IOException
