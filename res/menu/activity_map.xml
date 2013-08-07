@@ -11,7 +11,7 @@
         android:orderInCategory="100"
         android:showAsAction="always"
         android:visible="false"
-        android:title="@string/cancel_note_changes"
+        android:title="@string/cancelNote"
         android:icon="@drawable/ic_action_cancel"/>
     
         <item
