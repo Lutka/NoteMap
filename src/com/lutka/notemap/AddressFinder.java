@@ -43,6 +43,7 @@ public class AddressFinder extends AsyncTask<LatLng, Void, Address>
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return null;
 		}
 		
 		if(!listOfAddress.isEmpty())
