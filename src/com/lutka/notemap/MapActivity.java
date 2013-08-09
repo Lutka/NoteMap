@@ -158,22 +158,19 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 					onLocationChange(location);
 				}
 			}
-		}
-				
-		// "this" is used to have the "implements onMyLocationChangeListener" as a parameter
-		//googleMap.setOnMyLocationChangeListener(this); 
-		googleMap.setOnMapClickListener(this);
-		//googleMap.setOnMarkerClickListener(this);
-		googleMap.setOnInfoWindowClickListener(this); //infoWindow - chmurka z notatka
-		
-		googleMap.setOnMapLongClickListener(this);
-		googleMap.setOnMarkerDragListener(this);
-		googleMap.setOnMarkerClickListener(this);
-		googleMap.setOnCameraChangeListener(this);
-		
-		googleMap.setOnMapClickListener(this);
-		
-		
+			
+			// "this" is used to have the "implements onMyLocationChangeListener" as a parameter
+			//googleMap.setOnMyLocationChangeListener(this); 
+			googleMap.setOnMapClickListener(this);
+			googleMap.setOnInfoWindowClickListener(this); //infoWindow - chmurka z notatka
+			
+			googleMap.setOnMapLongClickListener(this);
+			googleMap.setOnMarkerDragListener(this);
+			googleMap.setOnMarkerClickListener(this);
+			googleMap.setOnCameraChangeListener(this);
+			
+			googleMap.setOnMapClickListener(this);
+		}		
 	}
 	
 	@Override
