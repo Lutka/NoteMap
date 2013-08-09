@@ -129,13 +129,22 @@ public class Note
 			noteMarker.setTitle(noteTitle);
 			noteMarker.setSnippet(snipper);	
 
-			noteMarker.setIcon(getBitmapDescriptor());
-			
-			if(noteMarker.isInfoWindowShown())
+			try
 			{
-				noteMarker.hideInfoWindow();
-				noteMarker.showInfoWindow();
+				noteMarker.setIcon(getBitmapDescriptor());
+				
+				
+				if(noteMarker.isInfoWindowShown())
+				{
+					noteMarker.hideInfoWindow();
+					noteMarker.showInfoWindow();
+				}
 			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+			
 		}		
 	}
 	
