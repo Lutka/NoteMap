@@ -79,6 +79,7 @@ public class NoteActivity extends SherlockActivity
 		else actionBar.setIcon(drawable);
 	}
 	
+	
 	void showPinDialog()
 	{
 		currentNote.showPinDialog(this, new OnItemClickListener()
