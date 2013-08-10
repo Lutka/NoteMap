@@ -148,8 +148,8 @@ public class NoteActivity extends SherlockActivity
 		alert.setTitle(R.string.delete_dialog_title);
 		alert.setMessage(R.string.delete_note_dialog);
 
-		alert.setPositiveButton(android.R.string.cancel,null); 
-		alert.setNegativeButton(android.R.string.ok, new DialogInterface.OnClickListener() 
+		alert.setNegativeButton(android.R.string.cancel,null); 
+		alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() 
 		{
 		    public void onClick(DialogInterface dialog, int whichButton) 
 		    {
