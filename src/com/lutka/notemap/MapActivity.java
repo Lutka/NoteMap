@@ -91,6 +91,15 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		for(Note note: listOfNotes)
+		{
+			if(note.isAddressEmpty())
+			{
+				note.findNoteAddress(this, currentZoom);
+			}			
+		}
+		
 	}
 	
 	
@@ -479,6 +488,7 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 		
 		addNote(newNote);
 		newNote.findNoteAddress(this, currentZoom);
+		newNote.updateMarker();
 		openNote(newNote);		
 	}
 	

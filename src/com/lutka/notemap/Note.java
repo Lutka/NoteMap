@@ -124,7 +124,7 @@ public class Note
 				
 				}
 			else if(subTitle.length() <= noteTitle.length()) snipper = noteSubTitle;
-			else snipper =  subTitle.substring(0, noteTitle.length()); //
+			else snipper =  subTitle;//.substring(0, noteTitle.length()); //
 			
 			noteMarker.setTitle(noteTitle);
 			noteMarker.setSnippet(snipper);	
@@ -160,6 +160,10 @@ public class Note
 	
 	public String getNoteTitle()
 	{
+		if(TextUtils.isEmpty(noteTitle))
+		{
+			return "Unknown address";
+		}
 		return noteTitle;
 	}
 	public String getNoteSubTitle() 
@@ -223,6 +227,9 @@ public class Note
 				@Override
 				public void onAddressFound(Address address) 
 				{
+					if (address == null)
+						return;
+					
 					Log.d(toString(), "Address Found "+address.toString());
 					String countryName = address.getCountryName();
 					String subAdminArea = address.getSubAdminArea();
@@ -308,6 +315,11 @@ public class Note
 	{
 //		return noteDestription.isEmpty() && noteSubTitle.isEmpty();
 		return TextUtils.isEmpty(noteDestription) && TextUtils.isEmpty(noteSubTitle);
+	}
+	
+	public boolean isAddressEmpty()
+	{
+		return TextUtils.isEmpty(noteTitle);		
 	}
 	
 	void showPinDialog(Context context, final OnItemClickListener itemClickListener)
