@@ -223,6 +223,9 @@ public class Note
 				@Override
 				public void onAddressFound(Address address) 
 				{
+					if (address == null)
+						return;
+					
 					Log.d(toString(), "Address Found "+address.toString());
 					String countryName = address.getCountryName();
 					String subAdminArea = address.getSubAdminArea();
@@ -308,6 +311,11 @@ public class Note
 	{
 //		return noteDestription.isEmpty() && noteSubTitle.isEmpty();
 		return TextUtils.isEmpty(noteDestription) && TextUtils.isEmpty(noteSubTitle);
+	}
+	
+	public boolean isAddressEmpty()
+	{
+		return TextUtils.isEmpty(noteTitle);		
 	}
 	
 	void showPinDialog(Context context, final OnItemClickListener itemClickListener)
