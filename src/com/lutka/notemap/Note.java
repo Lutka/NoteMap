@@ -126,7 +126,7 @@ public class Note
 			else if(subTitle.length() <= noteTitle.length()) snipper = noteSubTitle;
 			else snipper =  subTitle;//.substring(0, noteTitle.length()); //
 			
-			noteMarker.setTitle(noteTitle);
+			noteMarker.setTitle(getNoteTitle());
 			noteMarker.setSnippet(snipper);	
 
 			try
