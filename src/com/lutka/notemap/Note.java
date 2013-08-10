@@ -119,14 +119,14 @@ public class Note
 			if(subTitle.length() == 0) 
 				{
 					if(content.length() == 0)snipper = "";
-					else if (content.length() <= noteTitle.length()) snipper = content;
-					else snipper =  content.substring(0, noteTitle.length());
+					else if (content.length() <= getNoteTitle().length()) snipper = content;
+					else snipper =  content.substring(0, getNoteTitle().length());
 				
 				}
 			else if(subTitle.length() <= noteTitle.length()) snipper = noteSubTitle;
 			else snipper =  subTitle;//.substring(0, noteTitle.length()); //
 			
-			noteMarker.setTitle(noteTitle);
+			noteMarker.setTitle(getNoteTitle());
 			noteMarker.setSnippet(snipper);	
 
 			try
