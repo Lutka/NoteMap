@@ -124,7 +124,7 @@ public class Note
 				
 				}
 			else if(subTitle.length() <= noteTitle.length()) snipper = noteSubTitle;
-			else snipper =  subTitle.substring(0, noteTitle.length()); //
+			else snipper =  subTitle;//.substring(0, noteTitle.length()); //
 			
 			noteMarker.setTitle(noteTitle);
 			noteMarker.setSnippet(snipper);	
@@ -160,6 +160,10 @@ public class Note
 	
 	public String getNoteTitle()
 	{
+		if(TextUtils.isEmpty(noteTitle))
+		{
+			return "Unknown address";
+		}
 		return noteTitle;
 	}
 	public String getNoteSubTitle() 

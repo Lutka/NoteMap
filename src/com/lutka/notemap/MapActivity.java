@@ -484,10 +484,11 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 	public void onMapLongClick(LatLng location)
 	{
 		dismissUndoDialog();
-		Note newNote = new Note ("", "", "", location);	
+		Note newNote = new Note ("Note", "", "", location);	
 		
 		addNote(newNote);
 		newNote.findNoteAddress(this, currentZoom);
+		newNote.updateMarker();
 		openNote(newNote);		
 	}
 	
