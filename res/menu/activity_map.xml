@@ -5,7 +5,7 @@
         android:icon="@drawable/ic_action_add"
         android:orderInCategory="100"
         android:showAsAction="always"
-        android:title="@string/addNote"/>
+        android:title="@string/addNote"/>    
     <item
         android:id="@+id/action_cancel"
         android:icon="@drawable/ic_action_cancel"
@@ -20,4 +20,9 @@
         android:showAsAction="always"
         android:title="@string/addNoteHere"
         android:visible="false"/>
+    
+    <item android:id="@+id/action_show_list_of_notes"
+        android:title="list"
+        />
+    
 </menu>

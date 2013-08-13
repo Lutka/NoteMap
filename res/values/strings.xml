@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name = "app_name">Note Map</string>
-    <string name = "menu_settings">Settings</string>
-    <string name = "action_settings">Settings</string>
-    <string name = "title_activity_note">NoteActivity</string>
-    <string name = "hint_subtitle">Title</string>
-    <string name = "hint_content">Content</string>
-    <string name = "delete_note">Delete note</string>
-    <string name = "save_note">Save note</string>
-    <string name = "cancel_note_changes">Cancel changes</string>
-    <string name = "change_note_pin">Change pin</string>
-    <string name =  "select_pin">Select pin</string>
-	<string name = "delete_note_dialog">This note will be deleted</string>
-    <string name = "delete_dialog_title">Delete</string>
-    
-    <string name = "addNote">Create note</string>
-   	<string name = "cancelNote">Cancel</string>
+    <string name="app_name">Note Map</string>
+    <string name="menu_settings">Settings</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_note">NoteActivity</string>
+    <string name="hint_subtitle">Title</string>
+    <string name="hint_content">Content</string>
+    <string name="delete_note">Delete note</string>
+    <string name="save_note">Save note</string>
+    <string name="cancel_note_changes">Cancel changes</string>
+    <string name="change_note_pin">Change pin</string>
+    <string name="select_pin">Select pin</string>
+    <string name="delete_note_dialog">This note will be deleted</string>
+    <string name="delete_dialog_title">Delete</string>
+    <string name="addNote">Create note</string>
+    <string name="cancelNote">Cancel</string>
     <string name="edit_note">Edit note</string>
     <string name="undo">Undo</string>
-    <string name = "addNoteHere" >At my location</string>
-    <string name = "tap_on_the_map">Tap on the map to add note</string>
-    <string name = "location_unavailable">Location unavailable</string>
+    <string name="addNoteHere">At my location</string>
+    <string name="tap_on_the_map">Tap on the map to add note</string>
+    <string name="location_unavailable">Location unavailable</string>
+    <string name="title_activity_note_list">NoteListActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>

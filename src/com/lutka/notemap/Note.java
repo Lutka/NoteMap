@@ -143,8 +143,7 @@ public class Note
 			catch (Exception e)
 			{
 				e.printStackTrace();
-			}
-			
+			}			
 		}		
 	}
 	

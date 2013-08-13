@@ -52,7 +52,7 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 	public GoogleMap googleMap;
 	ActionMode actionMode = null;
 	
-	ArrayList<Note> listOfNotes = new ArrayList<Note>();
+	public ArrayList<Note> listOfNotes = new ArrayList<Note>();
 	HashMap<Marker, Note> hashMapOfNotes = new HashMap<Marker, Note>();
 	
 	Note openedNote = null;
@@ -196,6 +196,11 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 			case R.id.action_cancel:
 				addingNote = false;
 				supportInvalidateOptionsMenu();
+				return true;
+				
+			case R.id.action_show_list_of_notes:
+				Intent intent = new Intent(getApplicationContext(), NoteListActivity.class);
+				startActivity(intent);
 				return true;
 			
 			

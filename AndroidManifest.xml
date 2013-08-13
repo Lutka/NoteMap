@@ -7,8 +7,8 @@
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="17" />
-    <!-- pasted from the tutorial -->
 
+    <!-- pasted from the tutorial -->
     <permission
         android:name="com.lutka.notemap.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
@@ -20,7 +20,7 @@
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <!--
      The following two permissions are not required to use
-     Google Maps Android API v2, but are recommended.
+     Google Maps Android API v2, but are recommended.
     -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -37,8 +37,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.lutka.notemap.MapActivity"
-            android:label="@string/app_name" 
-            android:launchMode="standard">
+            android:label="@string/app_name"
+            android:launchMode="standard" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -52,11 +52,22 @@
 
         <activity
             android:name="com.lutka.notemap.NoteActivity"
-            android:label="@string/title_activity_note"
-            android:configChanges="keyboardHidden|orientation|screenSize"  >
-          <!--   <meta-data
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_note" >
+
+            <!--
+                 <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.lutka.notemap.MapActivity" /> -->
+                android:value="com.lutka.notemap.MapActivity" />
+            -->
+        </activity>
+        <activity
+            android:name="com.lutka.notemap.NoteListActivity"
+            android:label="@string/title_activity_note_list"
+            android:parentActivityName="com.lutka.notemap.MapActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.lutka.notemap.MapActivity" />
         </activity>
     </application>
 

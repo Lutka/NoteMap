@@ -18,14 +18,12 @@ public class PinAdapter extends ArrayAdapter<Integer>
 	public PinAdapter(Context context, int resource, int textViewResourceId, Integer[] pins) 
 	{		
 		super(context, resource, textViewResourceId, pins);
-		this.context = context;
-		
+		this.context = context;		
 	}
 	
 	public PinAdapter(Context context, Integer[] pins) 
 	{
-		this(context, R.layout.pin_item, android.R.id.text1, pins);
-		
+		this(context, R.layout.pin_item, android.R.id.text1, pins);		
 	}
 	
 	@Override
