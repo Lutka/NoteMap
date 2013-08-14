@@ -1,5 +1,6 @@
 package com.lutka.notemap;
 
+import java.io.IOException;
 import java.util.List;
 
 import android.content.Context;
@@ -7,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class NoteListAdapter extends ArrayAdapter<Note>
@@ -30,9 +32,20 @@ public class NoteListAdapter extends ArrayAdapter<Note>
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.note_list_item, parent, false);
 		
-		TextView tvListItem = (TextView) view.findViewById(R.id.tvListItem);
+		Note note = getItem(position);
+
+		ImageView noteMarker = (ImageView) view.findViewById(R.id.ivNoteMarker);
 		
-		tvListItem.setText(getItem(position).getNoteDestription());
+		TextView tvNoteTitle = (TextView) view.findViewById(R.id.tvNoteTitle);
+		TextView tvNoteSubtitle = (TextView) view.findViewById(R.id.tvNoteSubtitle);
+		TextView tvNoteDescription = (TextView) view.findViewById(R.id.tvNoteDescription);			
+		
+		//noteMarker.setImageDrawable(note.getPinDrawable(context));		
+		
+		tvNoteTitle.setText(note.getNoteTitle());
+		tvNoteSubtitle.setText(note.getNoteSubTitle());
+		tvNoteDescription.setText(note.getNoteDestription());
+		
 		return view;
 	}
 
