@@ -114,6 +114,7 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 			menu.findItem(R.id.action_cancel).setVisible(true);
 			menu.findItem(R.id.action_add_note_here).setVisible(true);
 			menu.findItem(R.id.action_create).setVisible(false);
+			menu.findItem(R.id.action_show_list_of_notes).setVisible(false);
 		}
 		return true;
 	}

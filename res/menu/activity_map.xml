@@ -22,7 +22,9 @@
         android:visible="false"/>
     
     <item android:id="@+id/action_show_list_of_notes"
-        android:title="list"
-        />
+        android:title="@string/show_list_of_notes"
+         android:icon="@drawable/ic_action_show_list_of_notes"
+        android:orderInCategory="100"
+        android:showAsAction="always" />
     
 </menu>
