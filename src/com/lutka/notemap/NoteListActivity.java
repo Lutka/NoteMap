@@ -13,10 +13,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.MenuItem;
@@ -144,6 +147,15 @@ public class NoteListActivity extends SherlockListActivity
 			importNotes(new JSONArray(stringBuilder.toString()));
 		}
 		
+	}
+	
+	@Override
+	protected void onListItemClick(ListView listView, View view, int position, long id)
+	{
+		Intent intent = new Intent(getApplicationContext(), NoteActivity.class);
+		startActivity(intent);
+		
+		super.onListItemClick(listView, view, position, id);
 	}
 
 }

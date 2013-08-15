@@ -22,7 +22,7 @@
     <string name="addNoteHere">At my location</string>
     <string name="tap_on_the_map">Tap on the map to add note</string>
     <string name="location_unavailable">Location unavailable</string>
-    <string name="title_activity_note_list">NoteListActivity</string>
+    <string name="title_activity_note_list">List of notes</string>
     <string name="hello_world">Hello world!</string>   
     
     <!-- added on 15/08/2013 and after-->

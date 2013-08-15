@@ -73,6 +73,12 @@ public class Note
 	{
 		return getPinDrawable(context, pinIds[pinId]);
 	}
+	
+	/*public String getMarkerId()
+	{
+		return ;
+		
+	}*/
 		
 	public Note(String noteTitle, String noteSubTitle, String noteDescription,LatLng noteLocation)
 	{
@@ -165,6 +171,8 @@ public class Note
 		}
 		return noteTitle;
 	}
+	
+	
 	public String getNoteSubTitle() 
 	{
 		return noteSubTitle;

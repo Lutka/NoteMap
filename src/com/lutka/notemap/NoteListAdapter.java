@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +41,7 @@ public class NoteListAdapter extends ArrayAdapter<Note>
 		TextView tvNoteSubtitle = (TextView) view.findViewById(R.id.tvNoteSubtitle);
 		TextView tvNoteDescription = (TextView) view.findViewById(R.id.tvNoteDescription);			
 		
-		//noteMarker.setImageDrawable(note.getPinDrawable(context));		
+		noteMarker.setImageDrawable();		//note.getPinDrawable(context)
 		
 		tvNoteTitle.setText(note.getNoteTitle());
 		tvNoteSubtitle.setText(note.getNoteSubTitle());
