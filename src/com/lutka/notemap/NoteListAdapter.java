@@ -41,7 +41,14 @@ public class NoteListAdapter extends ArrayAdapter<Note>
 		TextView tvNoteSubtitle = (TextView) view.findViewById(R.id.tvNoteSubtitle);
 		TextView tvNoteDescription = (TextView) view.findViewById(R.id.tvNoteDescription);			
 		
-		noteMarker.setImageDrawable();		//note.getPinDrawable(context)
+		try
+		{
+			noteMarker.setImageDrawable(note.getPinDrawable(context));
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
 		
 		tvNoteTitle.setText(note.getNoteTitle());
 		tvNoteSubtitle.setText(note.getNoteSubTitle());
