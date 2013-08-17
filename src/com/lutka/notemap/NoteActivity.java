@@ -33,7 +33,6 @@ public class NoteActivity extends SherlockActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{		
 		super.onCreate(savedInstanceState);
-		currentNote = MapActivity.instance.getOpenedNote();
 		setContentView(R.layout.activity_note);
 		// Show the Up button in the action bar.
 		setupActionBar();

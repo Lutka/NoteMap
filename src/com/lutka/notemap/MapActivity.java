@@ -62,16 +62,12 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 	
 	private int currentZoom = 10;
 	
-	public static MapActivity instance;
-	
 	boolean addingNote = false;
 		
 	//savedInstanceState - there are parameters which are saved from previous instance of this activity eg.particular chosen or inputed values
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
-	{
-		instance = this;
-		
+	{		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map);
 		getSupportActionBar().setIcon(R.drawable.ic_launcher);
@@ -406,13 +402,6 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 		// here we have to run the super method which is onActivityResult before it was override 
 		//to be sure that the onActivityResult will work so, the app won't crash - Has to be there!! 
 		super.onActivityResult(requestCode, resultCode, data);
-	}
-	
-	@Override
-	protected void onDestroy() 
-	{
-		instance = null;
-		super.onDestroy();
 	}
 	
 	public Note getOpenedNote() 
