@@ -54,8 +54,6 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 	public ArrayList<Note> listOfNotes = new ArrayList<Note>();
 	HashMap<Marker, Note> hashMapOfNotes = new HashMap<Marker, Note>();
 	
-	Note openedNote = null;
-	
 	final int REQUEST_EDIT = 1;
 	
 	final String FILE_NAME = "notes.json";
@@ -332,12 +330,8 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 		Intent intent = new Intent(this, NoteActivity.class);
 		
 		// puts values into the bundle
-		intent.putExtra(NoteActivity.EXTRA_NOTE_TITLE, note.getNoteTitle());
-		intent.putExtra(NoteActivity.EXTRA_NOTE_SUBTITLE, note.getNoteSubTitle());
-		intent.putExtra(NoteActivity.EXTRA_NOTE_CONTENT, note.getNoteDestription());
+		intent.putExtra(NoteActivity.EXTRA_NOTE, note);
 		//intent.putExtra(NoteActivity.EXTRA_CAMERA_ZOOM, note.getNoteZoom());
-		
-		openedNote = note;
 		
 		// start Activity, eg.edit note, and returns the new values (updated note)
 		startActivityForResult(intent, REQUEST_EDIT);
@@ -355,45 +349,32 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 		{
 			// to make sure that the note was actually saved, Result_ok comes form NoteActivity.savedNote()
 			if(resultCode == RESULT_OK)
-			{				
-				// to make sure that activity is not opened any time apart when the note has actually been opened
-				if(openedNote != null)
+			{
+				// create a basket in the order to get values which were put into bundle before - when a note was saved
+				Bundle bundle = data.getExtras();
+				
+				if(bundle != null)
 				{
-					// create a basket in the order to get values which were put into bundle before - when a note was saved
-					Bundle bundle = data.getExtras();
+					Note editedNote = (Note) bundle.getSerializable(NoteActivity.EXTRA_NOTE);
 					
-					if(bundle != null)
+					// updated made changes title and the content of a note
+											
+					//remove old instance of note from list
+					deleteNote(editedNote);
+					
+					if(editedNote.isEmpty() == false)
+					{	
+						addNote(editedNote);
+					}
+					
+					// it saves all notes to file
+					try
 					{
-						String title = bundle.getString(NoteActivity.EXTRA_NOTE_TITLE);
-						String content = bundle.getString(NoteActivity.EXTRA_NOTE_CONTENT);
-						String subtitle = bundle.getString(NoteActivity.EXTRA_NOTE_SUBTITLE);
-						
-						openedNote.setNoteDestription(content);
-						openedNote.setNoteSubTitle(subtitle);
-						
-						// updated made changes title and the content of a note
-												
-						// openedNote.setNoteTitle(title);
-						if(openedNote.isEmpty() == false)
-						{	
-							openedNote.updateMarker();
-						}
-						else
-						{
-							deleteNote(openedNote);								
-						}
-						
-						openedNote = null;
-						
-						// it saves all notes to file
-						try
-						{
-							saveToFile();
-						} catch (IOException e)
-						{
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+						saveToFile();
+					} catch (IOException e)
+					{
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 				}
 			}
@@ -402,11 +383,6 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 		// here we have to run the super method which is onActivityResult before it was override 
 		//to be sure that the onActivityResult will work so, the app won't crash - Has to be there!! 
 		super.onActivityResult(requestCode, resultCode, data);
-	}
-	
-	public Note getOpenedNote() 
-	{
-		return openedNote;
 	}
 	
 	public JSONArray exportNotes ()
