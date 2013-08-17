@@ -270,6 +270,15 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 	 */
 	public void deleteNote(final Note note)
 	{
+		deleteNote(note, true);
+	}
+
+
+	/*
+	 * Removes note from the list
+	 */
+	public void deleteNote(final Note note, boolean showUndo)
+	{
 		if (note == null) return;
 		listOfNotes.remove(note);		
 		note.removeFromMap();
@@ -283,7 +292,7 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 			e.printStackTrace();
 		}
 		
-		if (note.isEmpty() == false) showUndoButton("Note deleted", new OnClickListener()
+		if (showUndo && note.isEmpty() == false) showUndoButton("Note deleted", new OnClickListener()
 		{
 			
 			@Override
@@ -362,7 +371,14 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 					// updated made changes title and the content of a note
 											
 					//remove old instance of note from list
-					deleteNote(editedNote);
+					Note oldNote = null;
+					for (Note note : listOfNotes)
+						if (note.equals(editedNote)) 
+						{
+							oldNote = note;
+							break;
+						}
+					deleteNote(oldNote, false);
 					
 					if(editedNote.isEmpty() == false)
 					{	
@@ -483,6 +499,7 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 	public void onMarkerDragEnd(Marker marker)
 	{
 		Note note = getNoteByMarker(marker);
+		if (note == null) marker.remove();
 		note.setNoteLocation(marker.getPosition());
 		try
 		{
