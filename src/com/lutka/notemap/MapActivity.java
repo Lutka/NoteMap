@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -54,7 +52,6 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 	ActionMode actionMode = null;
 	
 	public Set<Note> listOfNotes = new HashSet<Note>();
-	HashMap<Marker, Note> hashMapOfNotes = new HashMap<Marker, Note>();
 	
 	final int REQUEST_EDIT = 1;
 	
@@ -264,10 +261,7 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 	public void addNote(Note note)
 	{
 		listOfNotes.add(note);		
-		Marker mapMarker = note.addToMap(googleMap);
-		
-		// link note with its corresponding marker
-		hashMapOfNotes.put(mapMarker, note);
+		note.addToMap(googleMap);
 		note.updateMarker();		
 	}
 	
@@ -276,12 +270,11 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 	 */
 	public void deleteNote(final Note note)
 	{
+		for (Note n : listOfNotes)
+			if (n.equals(note)) n.removeFromMap();
 		listOfNotes.remove(note);
 		
-		Marker marker = note.noteMarker;
-		hashMapOfNotes.remove(marker);
 		note.removeFromMap();
-		
 		try
 		{
 			saveToFile();
@@ -316,8 +309,16 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 	@Override
 	public void onInfoWindowClick(Marker marker)
 	{
-		Note clickedNote = hashMapOfNotes.get(marker);
-		openNote(clickedNote);	
+//		Note clickedNote = hashMapOfNotes.get(marker);
+		for (Note note : listOfNotes)
+		{
+			if (note.getNoteMarker().equals(marker))
+			{
+				openNote(note);	
+				break;
+			}
+		}
+		
 	}
 		
 	/**
@@ -470,11 +471,19 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 		// TODO Auto-generated method stub		
 	}
 	
+	private Note getNoteByMarker(Marker marker)
+	{
+		for (Note note : listOfNotes)
+			if (note.getNoteMarker().equals(marker)) return note;
+		
+		return null;
+	}
+	
 	// when marker was dragged
 	@Override
 	public void onMarkerDragEnd(Marker marker)
 	{
-		Note note = hashMapOfNotes.get(marker);
+		Note note = getNoteByMarker(marker);
 		note.setNoteLocation(marker.getPosition());
 		try
 		{
@@ -507,7 +516,7 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 	public boolean onMarkerClick(Marker marker)
 	{
 		dismissUndoDialog();
-		final Note note = hashMapOfNotes.get(marker);
+		final Note note = getNoteByMarker(marker);
 		startActionMode(new Callback()
 		{
 			

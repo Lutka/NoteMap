@@ -116,6 +116,11 @@ public class Note implements Serializable
 		if (noteMarker != null)	noteMarker.remove();
 	}
 	
+	public Marker getNoteMarker()
+	{
+		return noteMarker;
+	}
+	
 	public void updateMarker()
 	{
 		if(noteMarker != null)
