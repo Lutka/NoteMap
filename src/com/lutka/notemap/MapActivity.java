@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,7 +53,7 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 	public GoogleMap googleMap;
 	ActionMode actionMode = null;
 	
-	public ArrayList<Note> listOfNotes = new ArrayList<Note>();
+	public Set<Note> listOfNotes = new HashSet<Note>();
 	HashMap<Marker, Note> hashMapOfNotes = new HashMap<Marker, Note>();
 	
 	final int REQUEST_EDIT = 1;
@@ -389,11 +391,11 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 	{
 		JSONArray jsonArray = new JSONArray();
 		
-		for(int i = 0; i < listOfNotes.size(); i++)
+		for (Note note : listOfNotes)
 		{
 			try
 			{
-				jsonArray.put(listOfNotes.get(i).exportNote());
+				jsonArray.put(note.exportNote());
 			} catch (JSONException e)
 			{
 				// TODO Auto-generated catch block
