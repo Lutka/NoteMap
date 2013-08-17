@@ -363,14 +363,18 @@ public class Note implements Serializable
 	public boolean equals(Object o)
 	{
 		if (o instanceof Note)
-			return getNoteLocation().equals(((Note) o).getNoteLocation());
+		{
+			Note otherNote = (Note) o;
+			return latitude == otherNote.latitude && longitude == otherNote.longitude;
+		}
 		else return super.equals(o);
 	}
 	
 	@Override
 	public int hashCode()
 	{
-		return getNoteLocation().hashCode();
+		Double hash = latitude * longitude;
+		return hash.hashCode();
 	}
 
 }
