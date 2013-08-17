@@ -357,5 +357,19 @@ public class Note implements Serializable
 		});
 		dialog.show();
 	}
+	
+	@Override
+	public boolean equals(Object o)
+	{
+		if (o instanceof Note)
+			return noteLocation.equals(((Note) o).noteLocation);
+		else return super.equals(o);
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		return noteLocation.hashCode();
+	}
 
 }
