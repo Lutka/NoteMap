@@ -473,7 +473,7 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 	public void onMarkerDragEnd(Marker marker)
 	{
 		Note note = hashMapOfNotes.get(marker);
-		note.noteLocation = marker.getPosition();
+		note.setNoteLocation(marker.getPosition());
 		try
 		{
 			saveToFile();

@@ -34,7 +34,7 @@ public class Note implements Serializable
 	
 	String noteTitle;
 	String noteDestription;
-	LatLng noteLocation;
+	double latitude, longitude;
 	String noteSubTitle;
 	transient Marker noteMarker = null;
 	//int cameraZoom;                  
@@ -88,7 +88,7 @@ public class Note implements Serializable
 		this.noteTitle = noteTitle;
 		this.noteSubTitle = noteSubTitle;
 		this.noteDestription =  noteDescription;
-		this.noteLocation = noteLocation;		
+		this.setNoteLocation(noteLocation);		
 	}
 	
 	public Note (JSONObject jsonObject) throws JSONException
@@ -163,7 +163,7 @@ public class Note implements Serializable
 	
 	public LatLng getNoteLocation()
 	{
-		return noteLocation;
+		return new LatLng(latitude, longitude);
 	}
 	
 	public String getNoteTitle()
@@ -224,7 +224,8 @@ public class Note implements Serializable
 	}
 	public void setNoteLocation(LatLng noteLocation)
 	{
-		this.noteLocation = noteLocation;
+		this.latitude = noteLocation.latitude;
+		this.longitude = noteLocation.longitude;
 	}
 	
 
@@ -287,7 +288,7 @@ public class Note implements Serializable
 					
 				}
 			})
-			.execute(noteLocation);		
+			.execute(getNoteLocation());		
 			
 	}
 	
@@ -301,8 +302,8 @@ public class Note implements Serializable
 		jsonObject.put("description", noteDestription);
 		jsonObject.put("subTitle", noteSubTitle);
 		jsonObject.put("pin", pinId);
-		jsonObject.put("latitude", noteLocation.latitude);
-		jsonObject.put("longitude", noteLocation.longitude);
+		jsonObject.put("latitude", getNoteLocation().latitude);
+		jsonObject.put("longitude", getNoteLocation().longitude);
 		return jsonObject;
 	}
 	
@@ -317,8 +318,8 @@ public class Note implements Serializable
 			pinId = jsonObject.getInt("pin");
 		}
 		
-		noteLocation = new LatLng (jsonObject.getDouble("latitude")
-				,jsonObject.getDouble("longitude"));	
+		setNoteLocation(new LatLng (jsonObject.getDouble("latitude")
+				,jsonObject.getDouble("longitude")));	
 	}
 	
 	public boolean isEmpty()
@@ -362,14 +363,14 @@ public class Note implements Serializable
 	public boolean equals(Object o)
 	{
 		if (o instanceof Note)
-			return noteLocation.equals(((Note) o).noteLocation);
+			return getNoteLocation().equals(((Note) o).getNoteLocation());
 		else return super.equals(o);
 	}
 	
 	@Override
 	public int hashCode()
 	{
-		return noteLocation.hashCode();
+		return getNoteLocation().hashCode();
 	}
 
 }
