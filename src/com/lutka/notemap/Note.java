@@ -1,6 +1,7 @@
 package com.lutka.notemap;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,13 +28,17 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.lutka.notemap.AddressFinder.OnAddressFoundListener;
 
-public class Note 
+public class Note implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
+	private static int newId = 1;
+	int id;
 	String noteTitle;
 	String noteDestription;
-	LatLng noteLocation;
+	double latitude, longitude;
 	String noteSubTitle;
-	Marker noteMarker = null;
+	transient Marker noteMarker = null;
 	//int cameraZoom;                  
 
 	// holds pin id in the array
@@ -82,10 +87,11 @@ public class Note
 		
 	public Note(String noteTitle, String noteSubTitle, String noteDescription,LatLng noteLocation)
 	{
+		this.id = newId++;
 		this.noteTitle = noteTitle;
 		this.noteSubTitle = noteSubTitle;
 		this.noteDestription =  noteDescription;
-		this.noteLocation = noteLocation;		
+		this.setNoteLocation(noteLocation);		
 	}
 	
 	public Note (JSONObject jsonObject) throws JSONException
@@ -111,6 +117,11 @@ public class Note
 	public void removeFromMap ()
 	{
 		if (noteMarker != null)	noteMarker.remove();
+	}
+	
+	public Marker getNoteMarker()
+	{
+		return noteMarker;
 	}
 	
 	public void updateMarker()
@@ -160,7 +171,7 @@ public class Note
 	
 	public LatLng getNoteLocation()
 	{
-		return noteLocation;
+		return new LatLng(latitude, longitude);
 	}
 	
 	public String getNoteTitle()
@@ -221,7 +232,8 @@ public class Note
 	}
 	public void setNoteLocation(LatLng noteLocation)
 	{
-		this.noteLocation = noteLocation;
+		this.latitude = noteLocation.latitude;
+		this.longitude = noteLocation.longitude;
 	}
 	
 
@@ -284,7 +296,7 @@ public class Note
 					
 				}
 			})
-			.execute(noteLocation);		
+			.execute(getNoteLocation());		
 			
 	}
 	
@@ -298,13 +310,18 @@ public class Note
 		jsonObject.put("description", noteDestription);
 		jsonObject.put("subTitle", noteSubTitle);
 		jsonObject.put("pin", pinId);
-		jsonObject.put("latitude", noteLocation.latitude);
-		jsonObject.put("longitude", noteLocation.longitude);
+		jsonObject.put("latitude", getNoteLocation().latitude);
+		jsonObject.put("longitude", getNoteLocation().longitude);
+		jsonObject.put("id", id);
 		return jsonObject;
 	}
 	
 	public void importNote(JSONObject jsonObject) throws JSONException
 	{
+		id = jsonObject.optInt("id");
+		if (id == 0) id = newId++;
+		else if (id <= newId) newId = id+1;
+		
 		noteTitle = jsonObject.getString("title");
 		noteDestription = jsonObject.getString("description");
 		noteSubTitle = jsonObject.getString("subTitle");
@@ -314,8 +331,8 @@ public class Note
 			pinId = jsonObject.getInt("pin");
 		}
 		
-		noteLocation = new LatLng (jsonObject.getDouble("latitude")
-				,jsonObject.getDouble("longitude"));	
+		setNoteLocation(new LatLng (jsonObject.getDouble("latitude")
+				,jsonObject.getDouble("longitude")));	
 	}
 	
 	public boolean isEmpty()
@@ -353,6 +370,23 @@ public class Note
 			}
 		});
 		dialog.show();
+	}
+	
+	@Override
+	public boolean equals(Object o)
+	{
+		if (o instanceof Note)
+		{
+			Note otherNote = (Note) o;
+			return id == otherNote.id;
+		}
+		else return super.equals(o);
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		return id;
 	}
 
 }

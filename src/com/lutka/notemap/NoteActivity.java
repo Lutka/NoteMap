@@ -20,8 +20,7 @@ import com.actionbarsherlock.view.MenuItem;
 public class NoteActivity extends SherlockActivity
 {
 	
-	public final static String EXTRA_NOTE_TITLE = "noteTitle",
-			EXTRA_NOTE_CONTENT ="noteContent", EXTRA_NOTE_SUBTITLE = "noteSubTitle"; 
+	public final static String EXTRA_NOTE = "note";
 	
 	public final static float EXTRA_CAMERA_ZOOM = 10;
 
@@ -33,11 +32,7 @@ public class NoteActivity extends SherlockActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{		
 		super.onCreate(savedInstanceState);
-		currentNote = MapActivity.instance.getOpenedNote();
 		setContentView(R.layout.activity_note);
-		// Show the Up button in the action bar.
-		setupActionBar();
-		
 		
 		Intent intent = getIntent();
 		
@@ -47,20 +42,28 @@ public class NoteActivity extends SherlockActivity
 			
 			if(bundle != null)
 			{
-				String noteTitle = bundle.getString(EXTRA_NOTE_TITLE);
-				String noteDescription = bundle.getString(EXTRA_NOTE_CONTENT);
-				String noteSubTitle = bundle.getString(EXTRA_NOTE_SUBTITLE);
-				setTitle(noteTitle);
+				this.currentNote = (Note) bundle.getSerializable(EXTRA_NOTE);
+				
+				setTitle(currentNote.noteTitle);
 				EditText subTitle = (EditText) findViewById(R.id.etSubTitle);
-				subTitle.setText(noteSubTitle);
+				subTitle.setText(currentNote.noteSubTitle);
 				EditText editText = (EditText) findViewById(R.id.etContent);
-				editText.setText(noteDescription);
+				editText.setText(currentNote.noteDestription);
 				
 				// to set the cursor at the end of the word
-				editText.setSelection(noteDescription.length());
+				editText.setSelection(editText.length());
 				subTitle.setSelection(subTitle.length());
 			}
 		}
+		
+		if (currentNote == null)
+		{
+			setResult(RESULT_CANCELED);
+			finish();
+			return;
+		}
+		
+		setupActionBar();
 	}
 	
 	void updateIcon()
@@ -154,9 +157,9 @@ public class NoteActivity extends SherlockActivity
 		    public void onClick(DialogInterface dialog, int whichButton) 
 		    {
 		    	Intent intent = new Intent();
-				intent.putExtra(EXTRA_NOTE_TITLE, "");
-				intent.putExtra(EXTRA_NOTE_CONTENT, "");
-				intent.putExtra(EXTRA_NOTE_SUBTITLE, "");
+		    	currentNote.setNoteDestription("");
+		    	currentNote.setNoteSubTitle("");
+				intent.putExtra(EXTRA_NOTE, currentNote);
 				setResult(RESULT_OK, intent);
 				finish();
 		    }
@@ -181,18 +184,17 @@ public class NoteActivity extends SherlockActivity
 	 */
 	public void saveNote()
 	{
-		// intent has a bundle and by intent.putExtra it allows to put values into bundle
-		Intent intent = new Intent(); 
-		//puts (saves) title into bundle
-		intent.putExtra(EXTRA_NOTE_TITLE, getTitle().toString());
 		
 		EditText editTextSubtitle = (EditText) findViewById(R.id.etSubTitle);
-		intent.putExtra(EXTRA_NOTE_SUBTITLE, editTextSubtitle.getText().toString());
+		EditText editText = (EditText) findViewById(R.id.etContent);	
 		
-		// gets the current content of a note
-		EditText editText = (EditText) findViewById(R.id.etContent);		
-		//puts(saves) content into bundle
-		intent.putExtra(EXTRA_NOTE_CONTENT, editText.getText().toString());
+		currentNote.setNoteSubTitle(editTextSubtitle.getText().toString());
+		currentNote.setNoteDestription( editText.getText().toString());
+		
+		// intent has a bundle and by intent.putExtra it allows to put values into bundle
+		Intent intent = new Intent(); 
+		intent.putExtra(EXTRA_NOTE, currentNote);
+		
 		//when I go to new window the first activity has to return something for it in the order to work
 		setResult(RESULT_OK, intent);
 	}

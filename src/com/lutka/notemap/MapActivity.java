@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,7 +17,6 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -52,10 +51,7 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 	public GoogleMap googleMap;
 	ActionMode actionMode = null;
 	
-	public ArrayList<Note> listOfNotes = new ArrayList<Note>();
-	HashMap<Marker, Note> hashMapOfNotes = new HashMap<Marker, Note>();
-	
-	Note openedNote = null;
+	public Set<Note> listOfNotes = new HashSet<Note>();
 	
 	final int REQUEST_EDIT = 1;
 	
@@ -63,16 +59,12 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 	
 	private int currentZoom = 10;
 	
-	public static MapActivity instance;
-	
 	boolean addingNote = false;
 		
 	//savedInstanceState - there are parameters which are saved from previous instance of this activity eg.particular chosen or inputed values
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
-	{
-		instance = this;
-		
+	{		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map);
 		getSupportActionBar().setIcon(R.drawable.ic_launcher);
@@ -269,10 +261,7 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 	public void addNote(Note note)
 	{
 		listOfNotes.add(note);		
-		Marker mapMarker = note.addToMap(googleMap);
-		
-		// link note with its corresponding marker
-		hashMapOfNotes.put(mapMarker, note);
+		note.addToMap(googleMap);
 		note.updateMarker();		
 	}
 	
@@ -281,10 +270,17 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 	 */
 	public void deleteNote(final Note note)
 	{
-		listOfNotes.remove(note);
-		
-		Marker marker = note.noteMarker;
-		hashMapOfNotes.remove(marker);
+		deleteNote(note, true);
+	}
+
+
+	/*
+	 * Removes note from the list
+	 */
+	public void deleteNote(final Note note, boolean showUndo)
+	{
+		if (note == null) return;
+		listOfNotes.remove(note);		
 		note.removeFromMap();
 		
 		try
@@ -296,7 +292,7 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 			e.printStackTrace();
 		}
 		
-		if (note.isEmpty() == false) showUndoButton("Note deleted", new OnClickListener()
+		if (showUndo && note.isEmpty() == false) showUndoButton("Note deleted", new OnClickListener()
 		{
 			
 			@Override
@@ -321,8 +317,16 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 	@Override
 	public void onInfoWindowClick(Marker marker)
 	{
-		Note clickedNote = hashMapOfNotes.get(marker);
-		openNote(clickedNote);	
+//		Note clickedNote = hashMapOfNotes.get(marker);
+		for (Note note : listOfNotes)
+		{
+			if (note.getNoteMarker().equals(marker))
+			{
+				openNote(note);	
+				break;
+			}
+		}
+		
 	}
 		
 	/**
@@ -337,12 +341,8 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 		Intent intent = new Intent(this, NoteActivity.class);
 		
 		// puts values into the bundle
-		intent.putExtra(NoteActivity.EXTRA_NOTE_TITLE, note.getNoteTitle());
-		intent.putExtra(NoteActivity.EXTRA_NOTE_SUBTITLE, note.getNoteSubTitle());
-		intent.putExtra(NoteActivity.EXTRA_NOTE_CONTENT, note.getNoteDestription());
+		intent.putExtra(NoteActivity.EXTRA_NOTE, note);
 		//intent.putExtra(NoteActivity.EXTRA_CAMERA_ZOOM, note.getNoteZoom());
-		
-		openedNote = note;
 		
 		// start Activity, eg.edit note, and returns the new values (updated note)
 		startActivityForResult(intent, REQUEST_EDIT);
@@ -360,45 +360,39 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 		{
 			// to make sure that the note was actually saved, Result_ok comes form NoteActivity.savedNote()
 			if(resultCode == RESULT_OK)
-			{				
-				// to make sure that activity is not opened any time apart when the note has actually been opened
-				if(openedNote != null)
+			{
+				// create a basket in the order to get values which were put into bundle before - when a note was saved
+				Bundle bundle = data.getExtras();
+				
+				if(bundle != null)
 				{
-					// create a basket in the order to get values which were put into bundle before - when a note was saved
-					Bundle bundle = data.getExtras();
+					Note editedNote = (Note) bundle.getSerializable(NoteActivity.EXTRA_NOTE);
 					
-					if(bundle != null)
+					// updated made changes title and the content of a note
+											
+					//remove old instance of note from list
+					Note oldNote = null;
+					for (Note note : listOfNotes)
+						if (note.equals(editedNote)) 
+						{
+							oldNote = note;
+							break;
+						}
+					deleteNote(oldNote, false);
+					
+					if(editedNote.isEmpty() == false)
+					{	
+						addNote(editedNote);
+					}
+					
+					// it saves all notes to file
+					try
 					{
-						String title = bundle.getString(NoteActivity.EXTRA_NOTE_TITLE);
-						String content = bundle.getString(NoteActivity.EXTRA_NOTE_CONTENT);
-						String subtitle = bundle.getString(NoteActivity.EXTRA_NOTE_SUBTITLE);
-						
-						openedNote.setNoteDestription(content);
-						openedNote.setNoteSubTitle(subtitle);
-						
-						// updated made changes title and the content of a note
-												
-						// openedNote.setNoteTitle(title);
-						if(openedNote.isEmpty() == false)
-						{	
-							openedNote.updateMarker();
-						}
-						else
-						{
-							deleteNote(openedNote);								
-						}
-						
-						openedNote = null;
-						
-						// it saves all notes to file
-						try
-						{
-							saveToFile();
-						} catch (IOException e)
-						{
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+						saveToFile();
+					} catch (IOException e)
+					{
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 				}
 			}
@@ -409,27 +403,15 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 	
-	@Override
-	protected void onDestroy() 
-	{
-		instance = null;
-		super.onDestroy();
-	}
-	
-	public Note getOpenedNote() 
-	{
-		return openedNote;
-	}
-	
 	public JSONArray exportNotes ()
 	{
 		JSONArray jsonArray = new JSONArray();
 		
-		for(int i = 0; i < listOfNotes.size(); i++)
+		for (Note note : listOfNotes)
 		{
 			try
 			{
-				jsonArray.put(listOfNotes.get(i).exportNote());
+				jsonArray.put(note.exportNote());
 			} catch (JSONException e)
 			{
 				// TODO Auto-generated catch block
@@ -492,9 +474,9 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 		dismissUndoDialog();
 		Note newNote = new Note ("", "", "", location);	
 		
-		addNote(newNote);
-		newNote.findNoteAddress(this, currentZoom);
-		newNote.updateMarker();
+//		addNote(newNote);
+//		newNote.findNoteAddress(this, currentZoom);
+//		newNote.updateMarker();
 		openNote(newNote);		
 	}
 	
@@ -504,12 +486,21 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 		// TODO Auto-generated method stub		
 	}
 	
+	private Note getNoteByMarker(Marker marker)
+	{
+		for (Note note : listOfNotes)
+			if (note.getNoteMarker().equals(marker)) return note;
+		
+		return null;
+	}
+	
 	// when marker was dragged
 	@Override
 	public void onMarkerDragEnd(Marker marker)
 	{
-		Note note = hashMapOfNotes.get(marker);
-		note.noteLocation = marker.getPosition();
+		Note note = getNoteByMarker(marker);
+		if (note == null) marker.remove();
+		note.setNoteLocation(marker.getPosition());
 		try
 		{
 			saveToFile();
@@ -541,7 +532,7 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 	public boolean onMarkerClick(Marker marker)
 	{
 		dismissUndoDialog();
-		final Note note = hashMapOfNotes.get(marker);
+		final Note note = getNoteByMarker(marker);
 		startActionMode(new Callback()
 		{
 			
