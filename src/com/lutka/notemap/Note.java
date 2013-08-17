@@ -1,6 +1,7 @@
 package com.lutka.notemap;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,13 +28,15 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.lutka.notemap.AddressFinder.OnAddressFoundListener;
 
-public class Note 
+public class Note implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	String noteTitle;
 	String noteDestription;
 	LatLng noteLocation;
 	String noteSubTitle;
-	Marker noteMarker = null;
+	transient Marker noteMarker = null;
 	//int cameraZoom;                  
 
 	// holds pin id in the array
