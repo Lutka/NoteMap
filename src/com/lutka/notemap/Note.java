@@ -32,6 +32,8 @@ public class Note implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	
+	private static int newId = 1;
+	int id;
 	String noteTitle;
 	String noteDestription;
 	double latitude, longitude;
@@ -85,6 +87,7 @@ public class Note implements Serializable
 		
 	public Note(String noteTitle, String noteSubTitle, String noteDescription,LatLng noteLocation)
 	{
+		this.id = newId++;
 		this.noteTitle = noteTitle;
 		this.noteSubTitle = noteSubTitle;
 		this.noteDestription =  noteDescription;
@@ -309,11 +312,14 @@ public class Note implements Serializable
 		jsonObject.put("pin", pinId);
 		jsonObject.put("latitude", getNoteLocation().latitude);
 		jsonObject.put("longitude", getNoteLocation().longitude);
+		jsonObject.put("id", id);
 		return jsonObject;
 	}
 	
 	public void importNote(JSONObject jsonObject) throws JSONException
 	{
+		id = jsonObject.optInt("id");
+		if (id == 0) id = newId++;
 		noteTitle = jsonObject.getString("title");
 		noteDestription = jsonObject.getString("description");
 		noteSubTitle = jsonObject.getString("subTitle");
@@ -370,7 +376,7 @@ public class Note implements Serializable
 		if (o instanceof Note)
 		{
 			Note otherNote = (Note) o;
-			return latitude == otherNote.latitude && longitude == otherNote.longitude;
+			return id == otherNote.id;
 		}
 		else return super.equals(o);
 	}
@@ -378,8 +384,7 @@ public class Note implements Serializable
 	@Override
 	public int hashCode()
 	{
-		Double hash = latitude * longitude;
-		return hash.hashCode();
+		return id;
 	}
 
 }
