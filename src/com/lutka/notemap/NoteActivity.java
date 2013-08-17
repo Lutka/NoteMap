@@ -157,6 +157,8 @@ public class NoteActivity extends SherlockActivity
 		    public void onClick(DialogInterface dialog, int whichButton) 
 		    {
 		    	Intent intent = new Intent();
+		    	currentNote.setNoteDestription("");
+		    	currentNote.setNoteSubTitle("");
 				intent.putExtra(EXTRA_NOTE, currentNote);
 				setResult(RESULT_OK, intent);
 				finish();
