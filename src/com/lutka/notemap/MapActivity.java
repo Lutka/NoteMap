@@ -270,11 +270,10 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 	 */
 	public void deleteNote(final Note note)
 	{
-		for (Note n : listOfNotes)
-			if (n.equals(note)) n.removeFromMap();
-		listOfNotes.remove(note);
-		
+		if (note == null) return;
+		listOfNotes.remove(note);		
 		note.removeFromMap();
+		
 		try
 		{
 			saveToFile();
@@ -459,9 +458,9 @@ public class MapActivity extends SherlockFragmentActivity implements OnMapClickL
 		dismissUndoDialog();
 		Note newNote = new Note ("", "", "", location);	
 		
-		addNote(newNote);
-		newNote.findNoteAddress(this, currentZoom);
-		newNote.updateMarker();
+//		addNote(newNote);
+//		newNote.findNoteAddress(this, currentZoom);
+//		newNote.updateMarker();
 		openNote(newNote);		
 	}
 	
