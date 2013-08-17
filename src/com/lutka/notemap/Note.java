@@ -320,6 +320,8 @@ public class Note implements Serializable
 	{
 		id = jsonObject.optInt("id");
 		if (id == 0) id = newId++;
+		else if (id <= newId) newId = id+1;
+		
 		noteTitle = jsonObject.getString("title");
 		noteDestription = jsonObject.getString("description");
 		noteSubTitle = jsonObject.getString("subTitle");
