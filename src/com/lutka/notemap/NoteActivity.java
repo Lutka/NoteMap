@@ -33,9 +33,6 @@ public class NoteActivity extends SherlockActivity
 	{		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_note);
-		// Show the Up button in the action bar.
-		setupActionBar();
-		
 		
 		Intent intent = getIntent();
 		
@@ -58,6 +55,15 @@ public class NoteActivity extends SherlockActivity
 				subTitle.setSelection(subTitle.length());
 			}
 		}
+		
+		if (currentNote == null)
+		{
+			setResult(RESULT_CANCELED);
+			finish();
+			return;
+		}
+		
+		setupActionBar();
 	}
 	
 	void updateIcon()
