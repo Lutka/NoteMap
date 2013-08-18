@@ -1,57 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layoutListItem"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical" >
 
     <ImageView
         android:id="@+id/ivNoteMarker"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:layout_margin="4dp"
         android:layout_alignBottom="@+id/layoutNoteDetails"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:layout_margin="4dp"
         android:src="@drawable/pin_anchor" />
 
-    <LinearLayout
+ <!--    <LinearLayout
         android:id="@+id/layoutNoteDetails"
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_toRightOf="@id/ivNoteMarker" >
+        android:layout_toRightOf="@id/ivNoteMarker" > -->
 
         <TextView
             android:id="@+id/tvNoteSubtitle"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            
-            android:textSize="20dp"
+            android:layout_alignTop="@+id/ivNoteMarker"
+            android:layout_toRightOf="@+id/ivNoteMarker"
             android:lines="1"
-            android:textStyle="bold" 
-            android:text="noteSubtitle" />
+            android:text="noteSubtitle"
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvNoteDescription"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-           android:lines="1"
-            
+            android:layout_below="@+id/tvNoteSubtitle"
+            android:layout_toRightOf="@+id/ivNoteMarker"
+            android:lines="1"
             android:text="noteDescription" />
 
         <TextView
-            android:id="@+id/tvNoteTitle" 
+            android:id="@+id/tvNoteTitle"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="noteLocation_Title"  
-        android:textAlignment="center"
-            android:textSize="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tvNoteDescription"
+            android:layout_toRightOf="@+id/ivNoteMarker"
             android:gravity="right"
-            />
-
-    </LinearLayout>
+            android:text="noteLocation_Title"
+            android:textSize="10dp" />
 
 </RelativeLayout>
