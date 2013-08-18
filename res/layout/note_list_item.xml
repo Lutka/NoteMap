@@ -9,7 +9,7 @@
         android:id="@+id/ivNoteMarker"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:layout_margin="5dp"
+        android:layout_margin="4dp"
         android:layout_alignBottom="@+id/layoutNoteDetails"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
@@ -27,8 +27,9 @@
             android:id="@+id/tvNoteSubtitle"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp"
+            
             android:textSize="20dp"
+            android:lines="1"
             android:textStyle="bold" 
             android:text="noteSubtitle" />
 
@@ -36,7 +37,8 @@
             android:id="@+id/tvNoteDescription"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+           android:lines="1"
+            
             android:text="noteDescription" />
 
         <TextView
@@ -46,7 +48,8 @@
             android:layout_margin="5dp"
             android:text="noteLocation_Title"  
         android:textAlignment="center"
-            android:textSize="8dp"
+            android:textSize="10dp"
+            android:gravity="right"
             />
 
     </LinearLayout>

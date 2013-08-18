@@ -1,15 +1,8 @@
 package com.lutka.notemap;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 
 import android.annotation.TargetApi;
@@ -18,32 +11,26 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.MenuItem;
-import com.google.android.gms.maps.model.Marker;
 
-public class NoteListActivity extends SherlockListActivity
+public class NoteListActivity extends NoteCollectionActivity implements OnItemClickListener
 {
-	
-	final String FILE_NAME = "notes.json";
-	
-	public List <Note> listOfNotes = new ArrayList<Note>(); 
-	
-	HashMap<Marker, Note> hashMapOfNotes = new HashMap<Marker, Note>();
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		
+		setContentView(R.layout.activity_note_list);
+		
 		// Show the Up button in the action bar.
 		setupActionBar();
 		try
 		{
-			loadFromFile();
+			loadNotes();
 		} catch (IOException e)
 		{
 			// TODO Auto-generated catch block
@@ -53,14 +40,20 @@ public class NoteListActivity extends SherlockListActivity
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+				
+		ListView listView =  (ListView) findViewById(android.R.id.list);
+		
+		listView.setOnItemClickListener(this);
 
-		this.setListAdapter(new NoteListAdapter(this, listOfNotes));
+		listView.setAdapter(new NoteListAdapter(this, new ArrayList<Note>(listOfNotes)));
+		
 	}
 
 	/**
 	 * Set up the {@link android.app.ActionBar}, if the API is available.
 	 */
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	
 	private void setupActionBar()
 	{
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
@@ -95,67 +88,11 @@ public class NoteListActivity extends SherlockListActivity
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
-	public void importNotes(JSONArray jsonArray)
-	{
-		for(int i = 0; i< jsonArray.length(); i++)
-		{
-			try
-			{
-				Note note = new Note (jsonArray.getJSONObject(i));
-				addNote(note);
-			} catch (JSONException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}	
-	
-	/**
-	 * Called when a there is note in the file to be added to list
-	 */
-	public void addNote(Note note)
-	{
-		listOfNotes.add(note);		
-		
-	/*	Marker mapMarker = note.getPinDrawable(getApplicationContext());
-		
-		// link note with its corresponding marker
-		hashMapOfNotes.put(mapMarker, note);
-		note.updateMarker();*/		
-	}
-	
-	public void loadFromFile() throws IOException, JSONException
-	{
-		InputStream inStream = openFileInput(FILE_NAME);
-		
-		if(inStream != null)
-		{
-			InputStreamReader fileReader = new InputStreamReader(inStream);			
-			BufferedReader bufferedReader = new BufferedReader(fileReader);
-			
-			String line;
-			StringBuilder stringBuilder = new StringBuilder();
-			
-			while((line = bufferedReader.readLine()) != null)
-			{
-				// add line to stringBuilder
-				stringBuilder.append(line);
-			}
-			inStream.close();
-			importNotes(new JSONArray(stringBuilder.toString()));
-		}
-		
-	}
-	
+
 	@Override
-	protected void onListItemClick(ListView listView, View view, int position, long id)
+	public void onItemClick(AdapterView<?> adapterView, View view, int position, long id)
 	{
-		Intent intent = new Intent(getApplicationContext(), NoteActivity.class);
-		startActivity(intent);
-		
-		super.onListItemClick(listView, view, position, id);
+		openNote((Note) adapterView.getItemAtPosition(position));		
 	}
 
 }
