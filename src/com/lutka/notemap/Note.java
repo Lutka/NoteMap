@@ -357,7 +357,7 @@ public class Note implements Serializable
 		if (o instanceof Note)
 		{
 			Note otherNote = (Note) o;
-			return id == otherNote.id;
+			return id.equals(((Note) o).id);
 		}
 		else return super.equals(o);
 	}
