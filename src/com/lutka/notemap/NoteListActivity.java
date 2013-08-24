@@ -30,7 +30,7 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 		setupActionBar();
 		try
 		{
-			loadNotes();
+			loadNotesFromFile();
 		} catch (IOException e)
 		{
 			// TODO Auto-generated catch block

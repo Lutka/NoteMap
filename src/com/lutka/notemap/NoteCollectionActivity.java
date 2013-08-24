@@ -19,12 +19,6 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
-import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
-import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
-import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
-import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
-import com.google.android.gms.maps.GoogleMap.OnMarkerDragListener;
 
 public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 {
@@ -59,7 +53,7 @@ public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 		
 		try
 		{
-			saveToFile();
+			saveNotesToFile();
 		} catch (IOException e)
 		{
 			// TODO Auto-generated catch block
@@ -75,7 +69,7 @@ public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 				addNote(note);
 				try
 				{
-					saveToFile();
+					saveNotesToFile();
 				} catch (IOException e)
 				{
 					// TODO Auto-generated catch block
@@ -141,7 +135,7 @@ public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 					// it saves all notes to file
 					try
 					{
-						saveToFile();
+						saveNotesToFile();
 					} catch (IOException e)
 					{
 						// TODO Auto-generated catch block
@@ -156,6 +150,7 @@ public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
+	@Deprecated
 	public JSONArray exportNotes()
 	{
 		JSONArray jsonArray = new JSONArray();
@@ -174,6 +169,7 @@ public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 		return jsonArray;		
 	}
 
+	@Deprecated
 	public void importNotes(JSONArray jsonArray)
 	{
 		for(int i = 0; i< jsonArray.length(); i++)
@@ -190,14 +186,16 @@ public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 		}
 	}
 
-	public void saveToFile() throws IOException
+	@Deprecated
+	public void saveNotesToFile() throws IOException
 	{
 		OutputStreamWriter out = new OutputStreamWriter(openFileOutput(FILE_NAME, MODE_PRIVATE));
 		out.write(exportNotes().toString());
 		out.close();
 	}
 
-	public void loadNotes() throws IOException, JSONException
+	@Deprecated
+	public void loadNotesFromFile() throws IOException, JSONException
 	{
 		InputStream inStream = openFileInput(FILE_NAME);
 		

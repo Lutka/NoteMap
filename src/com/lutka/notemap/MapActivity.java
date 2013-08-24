@@ -56,7 +56,7 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 		// to load notes from file
 		try
 		{
-			loadNotes();
+			loadNotesFromFile();
 		} catch (IOException e)
 		{
 			// TODO Auto-generated catch block
@@ -306,7 +306,7 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 		note.setNoteLocation(marker.getPosition());
 		try
 		{
-			saveToFile();
+			saveNotesToFile();
 		} catch (IOException e)
 		{
 			// TODO Auto-generated catch block
