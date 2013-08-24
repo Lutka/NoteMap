@@ -22,14 +22,16 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 {
-
+	protected DatabaseHelper databaseHelper;
 	public Set<Note> listOfNotes = new HashSet<Note>();
 	final int REQUEST_EDIT = 1;
 	final String FILE_NAME = "notes.json";
 
-	public NoteCollectionActivity()
+	@Override
+	protected void onCreate(Bundle arg0)
 	{
-		super();
+		super.onCreate(arg0);
+		databaseHelper = new DatabaseHelper(this);
 	}
 
 	/**
@@ -37,7 +39,8 @@ public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 	 */
 	public void addNote(Note note)
 	{
-		listOfNotes.add(note);					
+		listOfNotes.add(note);
+		databaseHelper.insert(note);
 	}
 
 	public void deleteNote(final Note note)
@@ -51,14 +54,7 @@ public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 		listOfNotes.remove(note);		
 		note.removeFromMap();
 		
-		try
-		{
-			saveNotesToFile();
-		} catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		databaseHelper.delete(note);
 		
 		if (showUndo && note.isEmpty() == false) showUndoButton("Note deleted", new OnClickListener()
 		{
@@ -67,14 +63,6 @@ public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 			public void onClick(View v)
 			{
 				addNote(note);
-				try
-				{
-					saveNotesToFile();
-				} catch (IOException e)
-				{
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 			}
 		});
 	
@@ -123,24 +111,15 @@ public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 						if (note.equals(editedNote)) 
 						{
 							oldNote = note;
+							oldNote.removeFromMap();
 							break;
 						}
-					deleteNote(oldNote, false);
+
 					
 					if(editedNote.isEmpty() == false)
-					{	
-						addNote(editedNote);
-					}
-					
-					// it saves all notes to file
-					try
-					{
-						saveNotesToFile();
-					} catch (IOException e)
-					{
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+						onNoteUpdated(editedNote);
+					else 
+						deleteNote(oldNote, false);
 				}
 			}
 		}
@@ -148,6 +127,12 @@ public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 		// here we have to run the super method which is onActivityResult before it was override 
 		//to be sure that the onActivityResult will work so, the app won't crash - Has to be there!! 
 		super.onActivityResult(requestCode, resultCode, data);
+	}
+	
+	protected void onNoteUpdated(Note note)
+	{
+		databaseHelper.update(note);
+		note.updateMarker();
 	}
 
 	@Deprecated

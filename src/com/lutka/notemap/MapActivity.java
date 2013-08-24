@@ -1,9 +1,5 @@
 package com.lutka.notemap;
 
-import java.io.IOException;
-
-import org.json.JSONException;
-
 import android.app.Dialog;
 import android.content.Intent;
 import android.location.Criteria;
@@ -54,16 +50,12 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 		//when activity is created the map has to be set
 		setupMaps();
 		// to load notes from file
+		
 		try
 		{
-			loadNotesFromFile();
-		} catch (IOException e)
+			this.listOfNotes.addAll(databaseHelper.selectAll(Note.class));
+		} catch (InstantiationException e)
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JSONException e)
-		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -277,7 +269,7 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 		dismissUndoDialog();
 		Note newNote = new Note ("", "", "", location);	
 		
-//		addNote(newNote);
+		addNote(newNote);
 //		newNote.findNoteAddress(this, currentZoom);
 //		newNote.updateMarker();
 		openNote(newNote);		
@@ -304,14 +296,7 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 		Note note = getNoteByMarker(marker);
 		if (note == null) marker.remove();
 		note.setNoteLocation(marker.getPosition());
-		try
-		{
-			saveNotesToFile();
-		} catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		databaseHelper.update(note);
 		note.findNoteAddress(this, currentZoom);
 	}
 	@Override

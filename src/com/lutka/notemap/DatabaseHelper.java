@@ -19,7 +19,7 @@ public class DatabaseHelper extends MSQLiteOpenHelper
 	@Override
 	public void onCreate(SQLiteDatabase db)
 	{
-		createTable(Note.class, true);
+		createTable(db, Note.class, true);
 	}
 
 	@Override
