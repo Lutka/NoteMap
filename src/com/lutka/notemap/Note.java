@@ -86,9 +86,15 @@ public class Note implements Serializable
 		return ;
 		
 	}*/
+	
+	public Note()
+	{
+		
+	}
 		
 	public Note(String noteTitle, String noteSubTitle, String noteDescription,LatLng noteLocation)
 	{
+		this();
 		this.id = newId++;
 		this.noteTitle = noteTitle;
 		this.noteSubTitle = noteSubTitle;
@@ -98,6 +104,7 @@ public class Note implements Serializable
 	
 	public Note (JSONObject jsonObject) throws JSONException
 	{
+		this();
 		importNote(jsonObject);
 	}
 	
