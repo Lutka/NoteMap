@@ -1,5 +1,7 @@
 package com.lutka.notemap;
 
+import java.util.List;
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.location.Criteria;
@@ -53,7 +55,8 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 		
 		try
 		{
-			this.listOfNotes.addAll(databaseHelper.selectAll(Note.class));
+			List<Note> notes = databaseHelper.selectAll(Note.class);
+			this.listOfNotes.addAll(notes);
 		} catch (InstantiationException e)
 		{
 			e.printStackTrace();
@@ -61,6 +64,8 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 		
 		for(Note note: listOfNotes)
 		{
+			note.addToMap(googleMap);
+			note.updateMarker();
 			if(note.isAddressEmpty())
 			{
 				note.findNoteAddress(this, currentZoom);
