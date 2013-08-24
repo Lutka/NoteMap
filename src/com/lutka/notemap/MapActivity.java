@@ -114,6 +114,15 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 		}
 		return true;
 	}
+	
+	@Override
+	public void deleteNote(Note note)
+	{
+		super.deleteNote(note);
+		Marker marker = noteToMarkerMap.get(note);
+		marker.remove();
+		noteToMarkerMap.remove(note);
+	}
 
 	
 	/**

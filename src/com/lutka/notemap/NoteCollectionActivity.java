@@ -39,8 +39,8 @@ public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 	 */
 	public void addNote(Note note)
 	{
-		listOfNotes.add(note);
 		databaseHelper.insert(note);
+		listOfNotes.add(note);
 	}
 
 	public void deleteNote(final Note note)
