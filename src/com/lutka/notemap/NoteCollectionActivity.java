@@ -43,7 +43,7 @@ public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 		listOfNotes.add(note);
 	}
 
-	public void deleteNote(final Note note)
+	public final void deleteNote(final Note note)
 	{
 		deleteNote(note, true);
 	}

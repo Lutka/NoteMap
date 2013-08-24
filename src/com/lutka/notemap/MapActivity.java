@@ -116,9 +116,10 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 	}
 	
 	@Override
-	public void deleteNote(Note note)
+	public void deleteNote(Note note, boolean showUndo)
 	{
-		super.deleteNote(note);
+		super.deleteNote(note, showUndo);
+		
 		Marker marker = noteToMarkerMap.get(note);
 		marker.remove();
 		noteToMarkerMap.remove(note);
