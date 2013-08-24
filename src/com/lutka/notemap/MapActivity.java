@@ -254,7 +254,8 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 //		Note clickedNote = hashMapOfNotes.get(marker);
 		for (Note note : listOfNotes)
 		{
-			if (note.getNoteMarker().equals(marker))
+			Marker m = note.getNoteMarker();
+			if (m != null && m.equals(marker))
 			{
 				openNote(note);	
 				break;
@@ -284,7 +285,10 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 	private Note getNoteByMarker(Marker marker)
 	{
 		for (Note note : listOfNotes)
-			if (note.getNoteMarker().equals(marker)) return note;
+		{
+			Marker m = note.getNoteMarker();
+			if (m != null && m.equals(marker)) return note;
+		}
 		
 		return null;
 	}
