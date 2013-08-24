@@ -54,6 +54,13 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 		//when activity is created the map has to be set
 		setupMaps();
 		// to load notes from file
+
+		onResume();
+	}
+	
+	@Override
+	protected void onResume()
+	{
 		try
 		{
 			loadNotes();
@@ -74,7 +81,7 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 				note.findNoteAddress(this, currentZoom);
 			}			
 		}
-		
+		super.onResume();
 	}
 	
 	@Override

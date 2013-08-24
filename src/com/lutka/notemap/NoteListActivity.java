@@ -6,18 +6,22 @@ import java.util.ArrayList;
 import org.json.JSONException;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.View;
+import android.view.View.OnLongClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
 import com.actionbarsherlock.view.MenuItem;
 
-public class NoteListActivity extends NoteCollectionActivity implements OnItemClickListener
+public class NoteListActivity extends NoteCollectionActivity implements OnItemClickListener, OnItemLongClickListener
 {
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -28,6 +32,13 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 		
 		// Show the Up button in the action bar.
 		setupActionBar();
+	}
+	
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		
 		try
 		{
 			loadNotes();
@@ -45,8 +56,7 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 		
 		listView.setOnItemClickListener(this);
 
-		listView.setAdapter(new NoteListAdapter(this, new ArrayList<Note>(listOfNotes)));
-		
+		listView.setAdapter(new NoteListAdapter(this, new ArrayList<Note>(listOfNotes)));	
 	}
 
 	/**
@@ -94,5 +104,19 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 	{
 		openNote((Note) adapterView.getItemAtPosition(position));		
 	}
+
+	@Override
+	public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position,
+			long id)
+	{
+		Note note =  (Note) adapterView.getItemAtPosition(position);
+		deleteNote(note, true);
+		return false;
+	}
+	
+
+
+
+	
 
 }

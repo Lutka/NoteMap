@@ -82,8 +82,7 @@ public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 					e.printStackTrace();
 				}
 			}
-		});
-	
+		});	
 		
 	}
 
