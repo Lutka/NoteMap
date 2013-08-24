@@ -27,12 +27,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.lutka.notemap.AddressFinder.OnAddressFoundListener;
+import com.michaldabski.msqlite.Annotations.PrimaryKey;
 
 public class Note implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	
 	private static int newId = 1;
+	@PrimaryKey
 	int id;
 	String noteTitle;
 	String noteDestription;
