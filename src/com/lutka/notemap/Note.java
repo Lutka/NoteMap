@@ -40,7 +40,6 @@ public class Note implements Serializable
 	String noteDestription;
 	double latitude, longitude;
 	String noteSubTitle;
-	transient Marker noteMarker = null;
 	//int cameraZoom;                  
 
 	// holds pin id in the array
@@ -116,26 +115,18 @@ public class Note implements Serializable
 		else snipper =  description.substring(0, 10);*/
 			
 		// creat a mapMarker to use it later in the order to connect a note with its marker on a map 
-		noteMarker = map.addMarker(new MarkerOptions()
+		Marker marker = map.addMarker(new MarkerOptions()
 		.position(this.getNoteLocation()).title(this.getNoteTitle())
 		.snippet(this.getNoteDestription()).draggable(true));
 		
-		return noteMarker;
+		updateMarker(marker);
+		
+		return marker;
 	}
 	
-	public void removeFromMap ()
+	public void updateMarker(Marker marker)
 	{
-		if (noteMarker != null)	noteMarker.remove();
-	}
-	
-	public Marker getNoteMarker()
-	{
-		return noteMarker;
-	}
-	
-	public void updateMarker()
-	{
-		if(noteMarker != null)
+		if(marker != null)
 		{
 			// to make a snipper have a particular size/length 
 			//String description = noteDestription;
@@ -152,18 +143,18 @@ public class Note implements Serializable
 			else if(subTitle.length() <= noteTitle.length()) snipper = noteSubTitle;
 			else snipper =  subTitle;//.substring(0, noteTitle.length()); //
 			
-			noteMarker.setTitle(getNoteTitle());
-			noteMarker.setSnippet(snipper);	
+			marker.setTitle(getNoteTitle());
+			marker.setSnippet(snipper);	
 
 			try
 			{
-				noteMarker.setIcon(getBitmapDescriptor());
+				marker.setIcon(getBitmapDescriptor());
 				
 				
-				if(noteMarker.isInfoWindowShown())
+				if(marker.isInfoWindowShown())
 				{
-					noteMarker.hideInfoWindow();
-					noteMarker.showInfoWindow();
+					marker.hideInfoWindow();
+					marker.showInfoWindow();
 				}
 			}
 			catch (Exception e)
@@ -215,7 +206,6 @@ public class Note implements Serializable
 			if (pinIds[i] == pin)
 			{
 				this.pinId = i;
-				updateMarker();
 				return;
 			}
 		}
@@ -225,19 +215,16 @@ public class Note implements Serializable
 	public void setNoteTitle(String noteTitle)
 	{
 		this.noteTitle = noteTitle;
-		updateMarker();
 	}
 	
 	public void setNoteSubTitle(String noteSubTitle) 
 	{
 		this.noteSubTitle = noteSubTitle;
-		updateMarker();
 	}
 	
 	public void setNoteDestription(String noteDestription)
 	{
 		this.noteDestription = noteDestription;
-		updateMarker();
 	}
 	public void setNoteLocation(LatLng noteLocation)
 	{
@@ -289,19 +276,6 @@ public class Note implements Serializable
 						noteTitle = String.format("%s, %s",addressLine_0 , addressLine_1);
 						//noteDestription =  String.valueOf(zoom);
 					}
-					
-					/*
-					// --> for setting the right parameters in title
-					noteTitle = String.valueOf(zoom);
-					
-					noteDestription = "1)"+address.getAddressLine(0)+"\n 2) "+address.getAddressLine(1)+"\n 3) "
-							+ address.getAddressLine(2)+"\n Country name: "+address.getCountryName().toUpperCase()
-							+"\n Feature name: "+address.getFeatureName().toUpperCase()+"\n Country code: "
-							+ address.getCountryCode().toUpperCase()+"\n SubAdminArea: "+address.getSubAdminArea().toUpperCase();				
-					// <--	ends here
-					 * */						
-						
-					updateMarker();	
 					
 				}
 			})

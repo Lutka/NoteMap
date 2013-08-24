@@ -1,6 +1,8 @@
 package com.lutka.notemap;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -37,6 +39,7 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 {
 	public GoogleMap googleMap;
 	ActionMode actionMode = null;
+	Map<Note, Marker> noteToMarkerMap = new HashMap<Note, Marker>();
 	
 	private int currentZoom = 10;
 	
@@ -64,8 +67,7 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 		
 		for(Note note: listOfNotes)
 		{
-			note.addToMap(googleMap);
-			note.updateMarker();
+			addNoteToMap(note);
 			if(note.isAddressEmpty())
 			{
 				note.findNoteAddress(this, currentZoom);
@@ -74,12 +76,17 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 		
 	}
 	
+	void addNoteToMap(Note note)
+	{
+		Marker marker = note.addToMap(googleMap);
+		noteToMarkerMap.put(note, marker);		
+	}
+	
 	@Override
 	public void addNote(Note note)
 	{
 		super.addNote(note);
-		note.addToMap(googleMap);
-		note.updateMarker();	
+		addNoteToMap(note);				
 	}
 	
 	@Override
@@ -259,7 +266,7 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 //		Note clickedNote = hashMapOfNotes.get(marker);
 		for (Note note : listOfNotes)
 		{
-			Marker m = note.getNoteMarker();
+			Marker m = noteToMarkerMap.get(note);
 			if (m != null && m.equals(marker))
 			{
 				openNote(note);	
@@ -291,7 +298,7 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 	{
 		for (Note note : listOfNotes)
 		{
-			Marker m = note.getNoteMarker();
+			Marker m = noteToMarkerMap.get(note);
 			if (m != null && m.equals(marker)) return note;
 		}
 		
@@ -323,6 +330,13 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 			currentZoom = (int) position.zoom;
 			// zoomOfCamera = String.valueOf(currentZoom);
 		}		
+	}
+	
+	@Override
+	protected void onNoteUpdated(Note note)
+	{
+		super.onNoteUpdated(note);
+		note.updateMarker(noteToMarkerMap.get(note));
 	}
 
 	@Override
@@ -376,7 +390,7 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 									View arg1, int arg2, long arg3)
 							{
 								
-								note.updateMarker();
+								note.updateMarker(noteToMarkerMap.get(note));
 							}
 						});
 						break;

@@ -51,8 +51,7 @@ public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 	public void deleteNote(final Note note, boolean showUndo)
 	{
 		if (note == null) return;
-		listOfNotes.remove(note);		
-		note.removeFromMap();
+		listOfNotes.remove(note);
 		
 		databaseHelper.delete(note);
 		
@@ -111,7 +110,6 @@ public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 						if (note.equals(editedNote)) 
 						{
 							oldNote = note;
-							oldNote.removeFromMap();
 							break;
 						}
 
@@ -132,7 +130,6 @@ public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 	protected void onNoteUpdated(Note note)
 	{
 		databaseHelper.update(note);
-		note.updateMarker();
 	}
 
 	@Deprecated
