@@ -105,19 +105,14 @@ public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 					// updated made changes title and the content of a note
 											
 					//remove old instance of note from list
-					Note oldNote = null;
-					for (Note note : listOfNotes)
-						if (note.equals(editedNote)) 
-						{
-							oldNote = note;
-							break;
-						}
+					listOfNotes.remove(editedNote);
+					listOfNotes.add(editedNote);
 
 					
 					if(editedNote.isEmpty() == false)
 						onNoteUpdated(editedNote);
 					else 
-						deleteNote(oldNote, false);
+						deleteNote(editedNote, false);
 				}
 			}
 		}
