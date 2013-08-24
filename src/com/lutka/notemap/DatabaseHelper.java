@@ -19,15 +19,15 @@ public class DatabaseHelper extends MSQLiteOpenHelper
 	@Override
 	public void onCreate(SQLiteDatabase db)
 	{
-		// TODO Auto-generated method stub
-
+		createTable(Note.class, true);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
 	{
-		// TODO Auto-generated method stub
-
+		dropTable(db, Note.class, true);
+		
+		onCreate(db);
 	}
 
 }
