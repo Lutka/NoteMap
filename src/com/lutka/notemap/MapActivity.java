@@ -10,6 +10,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -54,13 +55,13 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 		//when activity is created the map has to be set
 		setupMaps();
 		// to load notes from file
-
-		onResume();
 	}
 	
 	@Override
 	protected void onResume()
 	{
+		super.onResume();
+		Log.wtf("Map aactivity", "onResume called");
 		try
 		{
 			loadNotes();
@@ -81,7 +82,6 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 				note.findNoteAddress(this, currentZoom);
 			}			
 		}
-		super.onResume();
 	}
 	
 	@Override

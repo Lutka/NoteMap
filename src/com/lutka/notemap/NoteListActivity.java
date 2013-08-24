@@ -50,13 +50,8 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-				
-		ListView listView =  (ListView) findViewById(android.R.id.list);
-		
-		listView.setOnItemClickListener(this);
-
-		listView.setAdapter(new NoteListAdapter(this, new ArrayList<Note>(listOfNotes)));	
+		}		
+		refreshListOfNotes();
 	}
 
 	/**
@@ -70,6 +65,16 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 		{
 			getActionBar().setDisplayHomeAsUpEnabled(true);
 		}
+	}
+	
+	public void refreshListOfNotes()
+	{
+		ListView listView =  (ListView) findViewById(android.R.id.list);
+		
+		listView.setOnItemClickListener(this);
+		listView.setOnItemLongClickListener(this);
+
+		listView.setAdapter(new NoteListAdapter(this, new ArrayList<Note>(listOfNotes)));
 	}
 
 /*	@Override
@@ -110,8 +115,26 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 			long id)
 	{
 		Note note =  (Note) adapterView.getItemAtPosition(position);
-		deleteNote(note, true);
-		return false;
+		deleteNoteWindow(note);		
+		return true;
+	}
+	
+	public void deleteNoteWindow(final Note currentNote)
+	{		
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+		alert.setTitle(R.string.delete_dialog_title);
+		alert.setMessage(R.string.delete_note_dialog);
+
+		alert.setNegativeButton(android.R.string.cancel,null); 
+		alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() 
+		{
+		    public void onClick(DialogInterface dialog, int whichButton) 
+		    {
+		    	deleteNote(currentNote, false);				
+				refreshListOfNotes();
+		    }
+		});
+		alert.show();
 	}
 	
 
