@@ -9,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 
@@ -43,6 +44,13 @@ public class NoteActivity extends SherlockActivity
 			if(bundle != null)
 			{
 				this.currentNote = (Note) bundle.getSerializable(EXTRA_NOTE);
+				
+				if (currentNote == null)
+				{
+					Toast.makeText(this, "Invalid note!", Toast.LENGTH_SHORT).show();
+					finish();
+					return;
+				}
 				
 				setTitle(currentNote.noteTitle);
 				EditText subTitle = (EditText) findViewById(R.id.etSubTitle);
