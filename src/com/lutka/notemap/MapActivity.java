@@ -333,7 +333,7 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 		if (note == null) marker.remove();
 		note.setNoteLocation(marker.getPosition());
 		databaseHelper.update(note);
-		note.findNoteAddress(this, currentZoom);
+		note.findNoteAddressAsync(this, currentZoom, null);
 	}
 	@Override
 	public void onMarkerDragStart(Marker marker)

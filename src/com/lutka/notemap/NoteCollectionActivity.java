@@ -61,7 +61,7 @@ public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 		{
 			if(note.isAddressEmpty())
 			{
-				note.findNoteAddress(this, 10);
+				note.findNoteAddressAsync(this, 10, null);
 			}			
 		}
 	}

@@ -231,7 +231,7 @@ public class Note implements Serializable
 	}
 	
 
-	public void findNoteAddress( Context context, final int zoom)
+	public void findNoteAddressAsync(Context context, final int zoom, final OnAddressFoundListener addressFoundListener)
 	{		
 		Log.d(toString(), "Wyszukiwanie lokalizacji");
 			new AddressFinder(context).
@@ -274,7 +274,8 @@ public class Note implements Serializable
 						noteTitle = String.format("%s, %s",addressLine_0 , addressLine_1);
 						//noteDestription =  String.valueOf(zoom);
 					}
-					
+					if (addressFoundListener != null) 
+						addressFoundListener.onAddressFound(address);
 				}
 			})
 			.execute(getNoteLocation());		
