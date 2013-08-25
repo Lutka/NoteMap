@@ -10,6 +10,7 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.text.TextUtils;
@@ -231,7 +232,7 @@ public class Note implements Serializable
 	}
 	
 
-	public void findNoteAddressAsync(Context context, final int zoom, final OnAddressFoundListener addressFoundListener)
+	public void findNoteAddressAsync(final Context context, final int zoom, final OnAddressFoundListener addressFoundListener)
 	{		
 		Log.d(toString(), "Wyszukiwanie lokalizacji");
 			new AddressFinder(context).
@@ -274,6 +275,14 @@ public class Note implements Serializable
 						noteTitle = String.format("%s, %s",addressLine_0 , addressLine_1);
 						//noteDestription =  String.valueOf(zoom);
 					}
+					
+					if (id != null)
+					{
+						SQLiteDatabase database = new DatabaseHelper(context).getWritableDatabase();
+						DatabaseHelper.update(database, this);
+						database.close();
+					}
+					
 					if (addressFoundListener != null) 
 						addressFoundListener.onAddressFound(address);
 				}
