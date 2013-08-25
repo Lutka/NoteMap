@@ -5,18 +5,21 @@ import java.io.IOException;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
+import android.location.Address;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.lutka.notemap.AddressFinder.OnAddressFoundListener;
 
 public class NoteActivity extends SherlockActivity
 {
@@ -52,7 +55,24 @@ public class NoteActivity extends SherlockActivity
 					return;
 				}
 				
-				setTitle(currentNote.noteTitle);
+				if (currentNote.isAddressEmpty())
+				{
+					setTitle("Detecting address...");
+					currentNote.findNoteAddressAsync(this, 10, new OnAddressFoundListener()
+					{	
+						@Override
+						public void onAddressFound(Address address)
+						{
+							SQLiteDatabase database = new DatabaseHelper(NoteActivity.this).getWritableDatabase();
+							DatabaseHelper.update(database, currentNote);
+							database.close();
+							setTitle(currentNote.noteTitle);							
+						}
+					});
+				}
+				else setTitle(currentNote.noteTitle);
+				
+				
 				EditText subTitle = (EditText) findViewById(R.id.etSubTitle);
 				subTitle.setText(currentNote.noteSubTitle);
 				EditText editText = (EditText) findViewById(R.id.etContent);
