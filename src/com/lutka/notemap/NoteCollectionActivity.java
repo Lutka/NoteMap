@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -155,25 +156,28 @@ public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 		databaseHelper.update(note);
 	}
 
-	@Deprecated
-	public void importNotes(JSONArray jsonArray)
+	public boolean importNotes(JSONArray jsonArray)
 	{
+		List<Note> importList = new ArrayList<Note>();
 		for(int i = 0; i< jsonArray.length(); i++)
 		{
 			try
 			{
 				Note note = new Note (jsonArray.getJSONObject(i));
-				addNote(note);
+				note.id = null; // set to null so database can assign new id
+				importList.add(note);
 			} catch (JSONException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
+				return false;
 			}
 		}
+		databaseHelper.insert(Note.class, importList);
+		Log.i("Note import",  String.format("%d notes imported from file", importList.size()));
+		return true;
 	}
 
-	@Deprecated
-	public void loadNotesFromFile() throws IOException, JSONException
+	public void importNotesFromFileToDatabase() throws IOException, JSONException
 	{
 		InputStream inStream = openFileInput(FILE_NAME);
 		
@@ -192,6 +196,7 @@ public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 			}
 			inStream.close();
 			importNotes(new JSONArray(stringBuilder.toString()));
+			this.deleteFile(FILE_NAME);
 		}
 		
 	}
