@@ -342,11 +342,20 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 	@Override
 	public void onMarkerDragEnd(Marker marker)
 	{
-		Note note = getNoteByMarker(marker);
+		final Note note = getNoteByMarker(marker);
 		if (note == null) marker.remove();
 		note.setNoteLocation(marker.getPosition());
-		databaseHelper.update(note);
-		note.findNoteAddressAsync(this, currentZoom, null);
+		
+		note.findNoteAddressAsync(this, currentZoom, new OnAddressFoundListener()
+		{
+			
+			@Override
+			public void onAddressFound(Address address)
+			{
+				databaseHelper.update(note);
+				
+			}
+		});
 	}
 	@Override
 	public void onMarkerDragStart(Marker marker)

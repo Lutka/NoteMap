@@ -276,13 +276,6 @@ public class Note implements Serializable
 						//noteDestription =  String.valueOf(zoom);
 					}
 					
-					if (id != null)
-					{
-						SQLiteDatabase database = new DatabaseHelper(context).getWritableDatabase();
-						DatabaseHelper.update(database, this);
-						database.close();
-					}
-					
 					if (addressFoundListener != null) 
 						addressFoundListener.onAddressFound(address);
 				}
