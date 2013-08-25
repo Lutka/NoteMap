@@ -305,20 +305,8 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 		dismissUndoDialog();
 		final Note newNote = new Note ("", "", "", location);	
 		
-		final ProgressDialog  progressDialog = new ProgressDialog(this);
-		progressDialog.setMessage("Finding address...");
-		progressDialog.show();
-		newNote.findNoteAddressAsync(this, currentZoom, new OnAddressFoundListener()
-		{			
-			@Override
-			public void onAddressFound(Address address)
-			{
-				addNote(newNote);
-				progressDialog.dismiss();
-				openNote(newNote);	
-			}
-		});
-			
+		addNote(newNote);
+		openNote(newNote);
 	}
 	
 	@Override
