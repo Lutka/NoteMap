@@ -5,6 +5,7 @@ import java.util.Map;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.location.Address;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -32,6 +33,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.lutka.notemap.AddressFinder.OnAddressFoundListener;
 
 public class MapActivity extends NoteCollectionActivity implements OnMapClickListener, OnInfoWindowClickListener, OnMapLongClickListener, OnMarkerDragListener, OnCameraChangeListener, OnMarkerClickListener
 
@@ -300,12 +302,18 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 	public void onMapLongClick(LatLng location)
 	{
 		dismissUndoDialog();
-		Note newNote = new Note ("", "", "", location);	
+		final Note newNote = new Note ("", "", "", location);	
 		
-		addNote(newNote);
-//		newNote.findNoteAddress(this, currentZoom);
-//		newNote.updateMarker();
-		openNote(newNote);		
+		newNote.findNoteAddressAsync(this, currentZoom, new OnAddressFoundListener()
+		{			
+			@Override
+			public void onAddressFound(Address address)
+			{
+				addNote(newNote);
+				openNote(newNote);	
+			}
+		});
+			
 	}
 	
 	@Override
