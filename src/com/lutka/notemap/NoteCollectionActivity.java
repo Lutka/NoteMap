@@ -56,14 +56,6 @@ public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 		{
 			e.printStackTrace();
 		}
-
-		for(Note note: listOfNotes)
-		{
-			if(note.isAddressEmpty())
-			{
-				note.findNoteAddressAsync(this, 10, null);
-			}			
-		}
 	}
 
 	/**
