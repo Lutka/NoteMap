@@ -1,7 +1,10 @@
 package com.lutka.notemap;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.json.JSONException;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -51,6 +54,14 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map);
 		getSupportActionBar().setIcon(R.drawable.ic_launcher);
+		try
+		{
+			importNotesFromFileToDatabase();
+		} catch (Exception e)
+		{
+			Toast.makeText(this, "Error while importing notes", Toast.LENGTH_SHORT).show();
+			e.printStackTrace();
+		}
 		//when activity is created the map has to be set
 		setupMaps();
 	}

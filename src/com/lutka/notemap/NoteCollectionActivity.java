@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
@@ -174,6 +175,7 @@ public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 		}
 		databaseHelper.insert(Note.class, importList);
 		Log.i("Note import",  String.format("%d notes imported from file", importList.size()));
+		Toast.makeText(this, String.format("%d notes imported from file", importList.size()), Toast.LENGTH_LONG).show();
 		return true;
 	}
 
@@ -195,8 +197,8 @@ public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 				stringBuilder.append(line);
 			}
 			inStream.close();
-			importNotes(new JSONArray(stringBuilder.toString()));
-			this.deleteFile(FILE_NAME);
+			if (importNotes(new JSONArray(stringBuilder.toString())))
+				this.deleteFile(FILE_NAME);
 		}
 		
 	}
