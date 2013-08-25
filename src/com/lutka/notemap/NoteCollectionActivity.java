@@ -45,6 +45,7 @@ public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 	
 	protected void loadNotes()
 	{
+		listOfNotes.clear();
 		try
 		{
 			List<Note> notes = databaseHelper.selectAll(Note.class);

@@ -58,6 +58,8 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 	@Override
 	protected void loadNotes()
 	{
+		clearMap();
+		
 		super.loadNotes();
 		
 		for(Note note: listOfNotes)
@@ -113,6 +115,15 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 		Marker marker = noteToMarkerMap.get(note);
 		marker.remove();
 		noteToMarkerMap.remove(note);
+	}
+	
+	/**
+	 * Removes all notes from map
+	 */
+	private void clearMap()
+	{
+		googleMap.clear();
+		noteToMarkerMap.clear();
 	}
 
 	
