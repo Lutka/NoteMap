@@ -1,10 +1,10 @@
 package com.lutka.notemap;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -181,6 +181,9 @@ public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 
 	public void importNotesFromFileToDatabase() throws IOException, JSONException
 	{
+		File file = new File(FILE_NAME);
+		if (file.exists() == false) return;
+		
 		InputStream inStream = openFileInput(FILE_NAME);
 		
 		if(inStream != null)
