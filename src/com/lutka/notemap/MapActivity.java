@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.location.Address;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -32,6 +34,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.lutka.notemap.AddressFinder.OnAddressFoundListener;
 
 public class MapActivity extends NoteCollectionActivity implements OnMapClickListener, OnInfoWindowClickListener, OnMapLongClickListener, OnMarkerDragListener, OnCameraChangeListener, OnMarkerClickListener
 
@@ -300,12 +303,22 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 	public void onMapLongClick(LatLng location)
 	{
 		dismissUndoDialog();
-		Note newNote = new Note ("", "", "", location);	
+		final Note newNote = new Note ("", "", "", location);	
 		
-		addNote(newNote);
-//		newNote.findNoteAddress(this, currentZoom);
-//		newNote.updateMarker();
-		openNote(newNote);		
+		final ProgressDialog  progressDialog = new ProgressDialog(this);
+		progressDialog.setMessage("Finding address...");
+		progressDialog.show();
+		newNote.findNoteAddressAsync(this, currentZoom, new OnAddressFoundListener()
+		{			
+			@Override
+			public void onAddressFound(Address address)
+			{
+				addNote(newNote);
+				progressDialog.dismiss();
+				openNote(newNote);	
+			}
+		});
+			
 	}
 	
 	@Override
@@ -327,13 +340,22 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 	
 	// when marker was dragged
 	@Override
-	public void onMarkerDragEnd(Marker marker)
+	public void onMarkerDragEnd(final Marker marker)
 	{
-		Note note = getNoteByMarker(marker);
+		final Note note = getNoteByMarker(marker);
 		if (note == null) marker.remove();
 		note.setNoteLocation(marker.getPosition());
-		databaseHelper.update(note);
-		note.findNoteAddress(this, currentZoom);
+		
+		note.findNoteAddressAsync(this, currentZoom, new OnAddressFoundListener()
+		{
+			
+			@Override
+			public void onAddressFound(Address address)
+			{
+				databaseHelper.update(note);
+				note.updateMarker(marker);
+			}
+		});
 	}
 	@Override
 	public void onMarkerDragStart(Marker marker)
