@@ -1,10 +1,7 @@
 package com.lutka.notemap;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.json.JSONException;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -54,6 +51,7 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map);
 		getSupportActionBar().setIcon(R.drawable.ic_launcher);
+
 		try
 		{
 			importNotesFromFileToDatabase();
@@ -82,7 +80,7 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 	void addNoteToMap(Note note)
 	{
 		Marker marker = note.addToMap(googleMap);
-		noteToMarkerMap.put(note, marker);		
+		noteToMarkerMap.put(note, marker);	
 	}
 	
 	@Override

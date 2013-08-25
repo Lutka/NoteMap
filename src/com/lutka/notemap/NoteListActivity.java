@@ -3,17 +3,20 @@ package com.lutka.notemap;
 import java.util.ArrayList;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
 import com.actionbarsherlock.view.MenuItem;
 
-public class NoteListActivity extends NoteCollectionActivity implements OnItemClickListener
+public class NoteListActivity extends NoteCollectionActivity implements OnItemClickListener, OnItemLongClickListener
 {
 	private ListView listView;
 
@@ -28,6 +31,7 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 		
 		listView = (ListView) findViewById(android.R.id.list);		
 		listView.setOnItemClickListener(this);
+
 	}
 	
 	@Override
@@ -75,6 +79,16 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 			getActionBar().setDisplayHomeAsUpEnabled(true);
 		}
 	}
+	
+	public void refreshListOfNotes()
+	{
+		ListView listView =  (ListView) findViewById(android.R.id.list);
+		
+		listView.setOnItemClickListener(this);
+		listView.setOnItemLongClickListener(this);
+
+		listView.setAdapter(new NoteListAdapter(this, new ArrayList<Note>(listOfNotes)));
+	}
 
 /*	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
@@ -108,5 +122,37 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 	{
 		openNote((Note) adapterView.getItemAtPosition(position));		
 	}
+
+	@Override
+	public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position,
+			long id)
+	{
+		Note note =  (Note) adapterView.getItemAtPosition(position);
+		deleteNoteWindow(note);		
+		return true;
+	}
+	
+	public void deleteNoteWindow(final Note currentNote)
+	{		
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+		alert.setTitle(R.string.delete_dialog_title);
+		alert.setMessage(R.string.delete_note_dialog);
+
+		alert.setNegativeButton(android.R.string.cancel,null); 
+		alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() 
+		{
+		    public void onClick(DialogInterface dialog, int whichButton) 
+		    {
+		    	deleteNote(currentNote, false);				
+				refreshListOfNotes();
+		    }
+		});
+		alert.show();
+	}
+	
+
+
+
+	
 
 }
