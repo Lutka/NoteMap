@@ -376,5 +376,11 @@ public class Note implements Serializable
 	{
 		return id;
 	}
+	
+	@Override
+	public String toString()
+	{
+		return this.noteSubTitle;
+	}
 
 }
