@@ -36,7 +36,33 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 	protected void loadNotes()
 	{
 		super.loadNotes();
+		updateList();
+	}
+	
+	private void updateList()
+	{
 		listView.setAdapter(new NoteListAdapter(this, new ArrayList<Note>(listOfNotes)));
+	}
+	
+	@Override
+	protected void onNoteUpdated(Note note)
+	{
+		super.onNoteUpdated(note);
+		updateList();
+	}
+	
+	@Override
+	public void deleteNote(Note note, boolean showUndo)
+	{
+		super.deleteNote(note, showUndo);
+		updateList();
+	}
+	
+	@Override
+	public void addNote(Note note)
+	{
+		super.addNote(note);
+		updateList();
 	}
 
 	/**
