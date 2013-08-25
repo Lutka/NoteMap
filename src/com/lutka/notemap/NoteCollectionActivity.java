@@ -35,6 +35,14 @@ public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 		databaseHelper = new DatabaseHelper(this);
 	}
 	
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		
+		loadNotes();
+	}
+	
 	protected void loadNotes()
 	{
 		try

@@ -28,8 +28,6 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 		
 		listView = (ListView) findViewById(android.R.id.list);		
 		listView.setOnItemClickListener(this);
-		
-		loadNotes();
 	}
 	
 	@Override

@@ -53,8 +53,6 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 		getSupportActionBar().setIcon(R.drawable.ic_launcher);
 		//when activity is created the map has to be set
 		setupMaps();
-		
-		loadNotes();
 	}
 	
 	@Override
