@@ -7,13 +7,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.View;
+import android.view.View.OnLongClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
 import com.actionbarsherlock.view.MenuItem;
 
-public class NoteListActivity extends NoteCollectionActivity implements OnItemClickListener
+public class NoteListActivity extends NoteCollectionActivity implements OnItemClickListener, OnItemLongClickListener
 {
 	private ListView listView;
 
@@ -28,6 +30,7 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 		
 		listView = (ListView) findViewById(android.R.id.list);		
 		listView.setOnItemClickListener(this);
+
 	}
 	
 	@Override
@@ -108,5 +111,19 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 	{
 		openNote((Note) adapterView.getItemAtPosition(position));		
 	}
+
+	@Override
+	public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position,
+			long id)
+	{
+		Note note =  (Note) adapterView.getItemAtPosition(position);
+		deleteNote(note, true);
+		return false;
+	}
+	
+
+
+
+	
 
 }

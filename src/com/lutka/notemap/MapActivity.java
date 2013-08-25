@@ -54,6 +54,7 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map);
 		getSupportActionBar().setIcon(R.drawable.ic_launcher);
+
 		try
 		{
 			importNotesFromFileToDatabase();

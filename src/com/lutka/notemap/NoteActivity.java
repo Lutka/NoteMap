@@ -173,6 +173,8 @@ public class NoteActivity extends SherlockActivity
 		    }
 		});
 		alert.show();
+		
+		// tu powinna sie ladowac od nowa lista notatek
 	}
 	
 	// what happen when back Button is pressed - the note should be saved
@@ -204,7 +206,9 @@ public class NoteActivity extends SherlockActivity
 		intent.putExtra(EXTRA_NOTE, currentNote);
 		
 		//when I go to new window the first activity has to return something for it in the order to work
-		setResult(RESULT_OK, intent);
+		setResult(RESULT_OK, intent);		
+		
+		// tu powinna sie ladowac od nowa lista notatek
 	}
 
 }
