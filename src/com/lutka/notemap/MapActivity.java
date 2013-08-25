@@ -340,7 +340,7 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 	
 	// when marker was dragged
 	@Override
-	public void onMarkerDragEnd(Marker marker)
+	public void onMarkerDragEnd(final Marker marker)
 	{
 		final Note note = getNoteByMarker(marker);
 		if (note == null) marker.remove();
@@ -353,7 +353,7 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 			public void onAddressFound(Address address)
 			{
 				databaseHelper.update(note);
-				
+				note.updateMarker(marker);
 			}
 		});
 	}
