@@ -14,7 +14,8 @@
             android:layout_height="wrap_content"
             android:gravity="top"
             android:hint="@string/hint_subtitle"
-            android:text="text" />
+            android:text="text" 
+            android:singleLine="true"/>
 
     <EditText
         android:id="@+id/etContent"
