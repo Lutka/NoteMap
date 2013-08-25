@@ -1,12 +1,8 @@
 package com.lutka.notemap;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
-import org.json.JSONException;
-
 import android.annotation.TargetApi;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -19,34 +15,28 @@ import com.actionbarsherlock.view.MenuItem;
 
 public class NoteListActivity extends NoteCollectionActivity implements OnItemClickListener
 {
+	private ListView listView;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-		super.onCreate(savedInstanceState);
-		
+		super.onCreate(savedInstanceState);		
 		setContentView(R.layout.activity_note_list);
 		
 		// Show the Up button in the action bar.
 		setupActionBar();
-		try
-		{
-			loadNotesFromFile();
-		} catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JSONException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-				
-		ListView listView =  (ListView) findViewById(android.R.id.list);
 		
+		listView = (ListView) findViewById(android.R.id.list);		
 		listView.setOnItemClickListener(this);
-
-		listView.setAdapter(new NoteListAdapter(this, new ArrayList<Note>(listOfNotes)));
 		
+		loadNotes();
+	}
+	
+	@Override
+	protected void loadNotes()
+	{
+		super.loadNotes();
+		listView.setAdapter(new NoteListAdapter(this, new ArrayList<Note>(listOfNotes)));
 	}
 
 	/**

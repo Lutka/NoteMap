@@ -1,7 +1,6 @@
 package com.lutka.notemap;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import android.app.Dialog;
@@ -54,26 +53,19 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 		getSupportActionBar().setIcon(R.drawable.ic_launcher);
 		//when activity is created the map has to be set
 		setupMaps();
-		// to load notes from file
 		
-		try
-		{
-			List<Note> notes = databaseHelper.selectAll(Note.class);
-			this.listOfNotes.addAll(notes);
-		} catch (InstantiationException e)
-		{
-			e.printStackTrace();
-		}
+		loadNotes();
+	}
+	
+	@Override
+	protected void loadNotes()
+	{
+		super.loadNotes();
 		
 		for(Note note: listOfNotes)
 		{
-			addNoteToMap(note);
-			if(note.isAddressEmpty())
-			{
-				note.findNoteAddress(this, currentZoom);
-			}			
+			addNoteToMap(note);		
 		}
-		
 	}
 	
 	void addNoteToMap(Note note)

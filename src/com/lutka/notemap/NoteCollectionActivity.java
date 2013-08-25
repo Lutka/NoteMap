@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.json.JSONArray;
@@ -32,6 +33,26 @@ public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 	{
 		super.onCreate(arg0);
 		databaseHelper = new DatabaseHelper(this);
+	}
+	
+	protected void loadNotes()
+	{
+		try
+		{
+			List<Note> notes = databaseHelper.selectAll(Note.class);
+			this.listOfNotes.addAll(notes);
+		} catch (InstantiationException e)
+		{
+			e.printStackTrace();
+		}
+
+		for(Note note: listOfNotes)
+		{
+			if(note.isAddressEmpty())
+			{
+				note.findNoteAddress(this, 10);
+			}			
+		}
 	}
 
 	/**
@@ -64,8 +85,6 @@ public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 				addNote(note);
 			}
 		});
-	
-		
 	}
 
 	/**
