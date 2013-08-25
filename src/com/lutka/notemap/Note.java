@@ -258,18 +258,19 @@ public class Note implements Serializable
 					
 					if(zoom >= 12)
 					{
-						if(subAdminArea != null && countryName!=null) noteTitle = String.format("%s, %s", subAdminArea, countryName); //noteTitle = subAdminArea+", "+countryName;
-						else noteTitle = String.format("%s, %s", addressLine_0, addressLine_1);
-						//noteDestription =  String.valueOf(zoom);					
+						if(subAdminArea != null ) noteTitle = String.format("%s, %s",addressLine_0 , subAdminArea);
+						else noteTitle = String.format("%s, %s",addressLine_0 , addressLine_1);
+						//noteDestription =  String.valueOf(zoom);	
+						
+							
 					}
 					
 					else if (zoom < 12 &&  zoom >= 4) 					
 					{
-						if(subAdminArea != null ) noteTitle = String.format("%s, %s",addressLine_0 , subAdminArea);
-						else noteTitle = String.format("%s, %s",addressLine_0 , addressLine_1);
-						//noteDestription =  String.valueOf(zoom);					
-					}
-					
+						if(subAdminArea != null && countryName!=null) noteTitle = String.format("%s, %s", subAdminArea, countryName); //noteTitle = subAdminArea+", "+countryName;
+						else noteTitle = String.format("%s, %s", addressLine_0, addressLine_1);
+						//noteDestription =  String.valueOf(zoom);				
+					}					
 					else
 					{
 						noteTitle = String.format("%s, %s",addressLine_0 , addressLine_1);
