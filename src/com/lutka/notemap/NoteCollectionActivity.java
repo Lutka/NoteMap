@@ -156,25 +156,6 @@ public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 	}
 
 	@Deprecated
-	public JSONArray exportNotes()
-	{
-		JSONArray jsonArray = new JSONArray();
-		
-		for (Note note : listOfNotes)
-		{
-			try
-			{
-				jsonArray.put(note.exportNote());
-			} catch (JSONException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}		
-		return jsonArray;		
-	}
-
-	@Deprecated
 	public void importNotes(JSONArray jsonArray)
 	{
 		for(int i = 0; i< jsonArray.length(); i++)
@@ -189,14 +170,6 @@ public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 				e.printStackTrace();
 			}
 		}
-	}
-
-	@Deprecated
-	public void saveNotesToFile() throws IOException
-	{
-		OutputStreamWriter out = new OutputStreamWriter(openFileOutput(FILE_NAME, MODE_PRIVATE));
-		out.write(exportNotes().toString());
-		out.close();
 	}
 
 	@Deprecated
