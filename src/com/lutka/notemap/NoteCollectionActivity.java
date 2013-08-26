@@ -168,7 +168,7 @@ public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 		}
 		databaseHelper.insert(Note.class, importList);
 		Log.i("Note import",  String.format("%d notes imported from file", importList.size()));
-		Toast.makeText(this, String.format("%d notes imported from file", importList.size()), Toast.LENGTH_LONG).show();
+		Toast.makeText(this, String.format(getString(R.string.n_notes_imported), importList.size()), Toast.LENGTH_LONG).show();
 		return true;
 	}
 
