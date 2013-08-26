@@ -1,28 +1,28 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/action_delete"
+        android:id="@+id/action_change_pin"
+        android:icon="@drawable/ic_action_change_pin"
         android:orderInCategory="100"
-        android:showAsAction="ifRoom"
-        android:title="@string/delete_note"
-        android:icon="@drawable/ic_action_delete"/>
-    <item
-        android:id="@+id/action_save"
-        android:orderInCategory="100"
-        android:showAsAction="ifRoom"
-        android:title="@string/save_note"
-        android:icon="@drawable/ic_action_save"/>
+        android:showAsAction="always"
+        android:title="@string/change_note_pin"/>
     <item
         android:id="@+id/action_undo_changes"
+        android:icon="@drawable/ic_action_cancel"
         android:orderInCategory="100"
         android:showAsAction="ifRoom"
-        android:title="@string/cancel_note_changes"
-        android:icon="@drawable/ic_action_cancel"/>
+        android:title="@string/cancel_note_changes"/>
     <item
-        android:id="@+id/action_change_pin"
+        android:id="@+id/action_delete"
+        android:icon="@drawable/ic_action_delete"
         android:orderInCategory="100"
         android:showAsAction="ifRoom"
-        android:title="@string/change_note_pin"
-        android:icon="@drawable/ic_action_change_pin"/>
+        android:title="@string/delete_note"/>
+    <item
+        android:id="@+id/action_save"
+        android:icon="@drawable/ic_action_save"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/save_note"/>
 
 </menu>
