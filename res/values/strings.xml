@@ -28,5 +28,6 @@
     <!-- added on 15/08/2013 and after-->
     
     <string name="show_list_of_notes">Show list of notes</string>
+    <string name="n_notes_imported">%s notes imported to database.</string>
 
 </resources>
