@@ -52,6 +52,7 @@ public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 		{
 			List<Note> notes = databaseHelper.selectAll(Note.class);
 			this.listOfNotes.addAll(notes);
+			Log.i("NoteMap", "Notes loaded: "+String.valueOf(notes.size()));
 		} catch (InstantiationException e)
 		{
 			e.printStackTrace();
@@ -172,10 +173,7 @@ public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 	}
 
 	public void importNotesFromFileToDatabase() throws IOException, JSONException
-	{
-		File file = new File(FILE_NAME);
-		if (file.exists() == false) return;
-		
+	{		
 		InputStream inStream = openFileInput(FILE_NAME);
 		
 		if(inStream != null)
@@ -193,7 +191,10 @@ public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 			}
 			inStream.close();
 			if (importNotes(new JSONArray(stringBuilder.toString())))
+			{
 				this.deleteFile(FILE_NAME);
+				Log.i("NoteMap", "Notes imported and file deleted");
+			}
 		}
 		
 	}

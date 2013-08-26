@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Criteria;
@@ -60,8 +59,7 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 			importNotesFromFileToDatabase();
 		} catch (Exception e)
 		{
-			Toast.makeText(this, "Error while importing notes", Toast.LENGTH_SHORT).show();
-			e.printStackTrace();
+			// Do nothing. File will not exist most of the time
 		}
 		//when activity is created the map has to be set
 		setupMaps();
