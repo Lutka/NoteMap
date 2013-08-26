@@ -24,4 +24,8 @@
       <string name = "tap_on_the_map">Kiknij na mapę aby dodać notatkę</string>
     <string name = "location_unavailable">Lokalizacja niedostępna</string>
     
+    <string name="title_activity_note_list">Notatki</string>
+    <string name="show_list_of_notes">Lista notatek</string>
+    
+    
 </resources>
