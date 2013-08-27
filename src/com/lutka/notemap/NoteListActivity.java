@@ -43,6 +43,7 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 	
 	private void updateList()
 	{
+		// display diffrent layout when list is empty
 		if(listOfNotes.isEmpty())
 		{
 			setContentView(R.layout.empty_list);
