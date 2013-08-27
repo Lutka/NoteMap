@@ -1,6 +1,10 @@
 package com.lutka.notemap;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
@@ -19,6 +23,9 @@ import com.actionbarsherlock.view.MenuItem;
 public class NoteListActivity extends NoteCollectionActivity implements OnItemClickListener, OnItemLongClickListener
 {
 	private ListView listView;
+	
+	boolean sortAlphabeticly = false;
+	boolean sortByDate = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -32,6 +39,16 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 		listView = (ListView) findViewById(android.R.id.list);		
 		listView.setOnItemClickListener(this);
 
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu menu)
+	{
+		
+		super.onCreateOptionsMenu(menu);
+		getSupportMenuInflater().inflate(R.menu.activity_note_list, menu);
+		
+		return true;
 	}
 	
 	@Override
@@ -95,9 +112,13 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 		listView.setOnItemClickListener(this);
 		listView.setOnItemLongClickListener(this);
 
-		listView.setAdapter(new NoteListAdapter(this, new ArrayList<Note>(listOfNotes)));
+		updateListOrder();
 	}
 
+	void updateListOrder()
+	{
+		listView.setAdapter(new NoteListAdapter(this, sortList(true)));
+	}
 /*	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
@@ -112,17 +133,43 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 		switch (item.getItemId())
 		{
 		case android.R.id.home:
-			// This ID represents the Home or Up button. In the case of this
-			// activity, the Up button is shown. Use NavUtils to allow users
-			// to navigate up one level in the application structure. For
-			// more details, see the Navigation pattern on Android Design:
-			//
-			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
-			//
 			NavUtils.navigateUpFromSameTask(this);
+			return true;
+		case R.id.action_sort_alphabeticly:
+			sortList(true);
+			//sortowanie
+			return true;
+			
+		case R.id.action_sort_byId:
+			//sortowanie
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	private List<Note> sortList(boolean alphabetically)
+	{
+		return sortList(listOfNotes, alphabetically);
+	}
+
+	private List<Note> sortList(Collection<Note> listOfNotes, boolean alphabetically)
+	{
+		List<Note> list = new ArrayList<Note>(listOfNotes);
+		if (alphabetically) Collections.sort(list);
+		else
+		{
+			Collections.sort(list, new Comparator<Note>()
+			{
+
+				@Override
+				public int compare(Note lhs, Note rhs)
+				{
+					return lhs.id.compareTo(rhs.id);
+				}
+			});
+		}
+		
+		return list;
 	}
 
 	@Override
@@ -135,7 +182,7 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 	public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position,
 			long id)
 	{
-		Note note =  (Note) adapterView.getItemAtPosition(position);
+		final Note note =  (Note) adapterView.getItemAtPosition(position);
 		deleteNoteWindow(note);		
 		return true;
 	}
@@ -156,11 +203,6 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 		    }
 		});
 		alert.show();
-	}
-	
-
-
-
-	
+	}	
 
 }
