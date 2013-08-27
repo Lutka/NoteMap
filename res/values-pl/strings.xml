@@ -21,11 +21,12 @@
     <string name = "undo">Cofnij</string>
     <string name = "addNoteHere" >W moim miejscu</string>
     
-      <string name = "tap_on_the_map">Kiknij na mapę aby dodać notatkę</string>
+     <string name = "tap_on_the_map">Kiknij na mapę aby dodać notatkę</string>
     <string name = "location_unavailable">Lokalizacja niedostępna</string>
     
     <string name="title_activity_note_list">Notatki</string>
     <string name="show_list_of_notes">Lista notatek</string>
+    <string name="empty_list">Lista jest pusta</string>
     
     
 </resources>

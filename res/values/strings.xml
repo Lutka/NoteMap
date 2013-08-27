@@ -29,5 +29,6 @@
     
     <string name="show_list_of_notes">Show list of notes</string>
     <string name="n_notes_imported">%s notes imported to database.</string>
+    <string name="empty_list">List is empty</string>
 
 </resources>
