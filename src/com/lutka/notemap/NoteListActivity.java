@@ -9,9 +9,11 @@ import java.util.List;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.text.AlteredCharSequence;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -19,6 +21,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
 import com.actionbarsherlock.view.MenuItem;
+import com.google.android.gms.maps.model.LatLng;
 
 public class NoteListActivity extends NoteCollectionActivity implements OnItemClickListener, OnItemLongClickListener
 {
@@ -38,7 +41,6 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 		
 		listView = (ListView) findViewById(android.R.id.list);		
 		listView.setOnItemClickListener(this);
-
 	}
 	
 	@Override
@@ -68,6 +70,19 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 		else
 		{
 			listView.setAdapter(new NoteListAdapter(this, new ArrayList<Note>(listOfNotes)));
+		}
+	}
+	
+	private void updateList(List<Note> list)
+	{
+		// display diffrent layout when list is empty
+		if(listOfNotes.isEmpty())
+		{
+			setContentView(R.layout.empty_list);
+		}
+		else
+		{
+			listView.setAdapter(new NoteListAdapter(this, list));
 		}
 	}
 	
@@ -119,39 +134,43 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 	{
 		listView.setAdapter(new NoteListAdapter(this, sortList(true)));
 	}
-/*	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
-	{
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.note_list, menu);
-		return true;
-	}*/
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
+		List sorted;
+		
 		switch (item.getItemId())
 		{
 		case android.R.id.home:
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
+			
 		case R.id.action_sort_alphabeticly:
-			sortList(true);
-			//sortowanie
+			sortAlphabeticly = true;			
+			sortList(sortAlphabeticly);
+			sorted = sortList(sortAlphabeticly);
+			updateList(sorted);
 			return true;
 			
 		case R.id.action_sort_byId:
-			//sortowanie
+			sortAlphabeticly = false;
+			sorted = sortList(sortAlphabeticly);
+			updateList(sorted);
 			return true;
 		}
+		
+		updateList();
 		return super.onOptionsItemSelected(item);
 	}
 	
+	//sort hashSet
 	private List<Note> sortList(boolean alphabetically)
 	{
 		return sortList(listOfNotes, alphabetically);
 	}
 
+	// sorting options
 	private List<Note> sortList(Collection<Note> listOfNotes, boolean alphabetically)
 	{
 		List<Note> list = new ArrayList<Note>(listOfNotes);
@@ -160,16 +179,22 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 		{
 			Collections.sort(list, new Comparator<Note>()
 			{
-
 				@Override
-				public int compare(Note lhs, Note rhs)
+				public int compare(Note note1, Note note2)
 				{
-					return lhs.id.compareTo(rhs.id);
+					return note1.id.compareTo(note2.id);
 				}
 			});
-		}
-		
+		}		
 		return list;
+	}
+	
+	public List <Note> sortListByLocation (Location location, Collection <Note> listOfNotes)
+	{
+		double latitude = location.getLatitude();
+		double longitude = location.getLongitude();
+		LatLng latLng = new LatLng(latitude, longitude);
+		return null;
 	}
 
 	@Override
