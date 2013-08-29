@@ -329,10 +329,8 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 			@Override
 			public void onClick(DialogInterface dialog, int item)
 			{
-				 // sortingOption = item+1;
-			        
-			        switch (item)
-					{					
+		        switch (item)
+				{					
 					case 0:
 						sortingOption = SORT_BY_DATE;
 						updateList();
@@ -347,88 +345,11 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 						sortingOption = SORT_BY_ALPHABET;
 						updateList();	
 						break;
-					}
-				
-				Toast.makeText(getApplicationContext(), "List sorted", Toast.LENGTH_SHORT).show();				
+				}
+		        
+				//Toast.makeText(getApplicationContext(), "List sorted", Toast.LENGTH_SHORT).show();				
 			}
 		});
 		alert.show();
-
-	/*	alert.setNegativeButton(android.R.string.cancel,null); 
-		alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() 
-		{
-		    public void onClick(DialogInterface dialog, int whichButton) 
-		    {
-		    	deleteNote(currentNote, false);				
-				refreshListOfNotes();
-		    }
-		});
-		alert.show();*/
-	}
-	public void setItems()
-	{
-		
-		final CharSequence[] items = {"Red", "Green", "Blue"};
-
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Pick a color");
-		builder.setItems(items, new DialogInterface.OnClickListener() 
-		{
-		    public void onClick(DialogInterface dialog, int item) {
-		        Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
-		        
-		        sortingOption = item+1;
-		        
-		        switch (item)
-				{					
-				case SORT_BY_DATE -1:
-					sortingOption = SORT_BY_DATE;
-					updateList();
-					break;
-					
-				case SORT_BY_DISTANCE-1:
-					sortingOption = SORT_BY_DISTANCE;
-					updateList();	
-					break;
-					
-				case SORT_BY_ALPHABET -1:
-					sortingOption = SORT_BY_ALPHABET;
-					updateList();	
-					break;
-				}
-		    }
-		});
-		AlertDialog alert = builder.create();
 	}
 }
-
-		
-	
-	/*void showSortDialog(Context context, final OnItemClickListener itemClickListener)
-	{
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View dialogView = inflater.inflate(R.layout.sort_selection_dialog, null);
-
-		TextView sortAlphabetically = (TextView) findViewById(R.id.sort_by_alphabet);
-		TextView sortByDate = (TextView) findViewById(R.id.sort_by_date);
-		TextView sortByDistance = (TextView) findViewById(R.id.sort_by_distance);
-		
-		AlertDialog.Builder builder = new Builder(context);
-		builder.setView(dialogView).setTitle(R.string.change_note_pin);	
-		final Dialog dialog = builder.create();
-		
-		gridIcons.setOnItemClickListener(new OnItemClickListener() 
-		{
-			@Override
-			public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) 
-			{
-				Integer pinName = (Integer) adapterView.getItemAtPosition(position);
-				setPin(pinName);
-				itemClickListener.onItemClick(adapterView, view, position, id);
-				dialog.dismiss();
-			}
-		});
-		dialog.show();
-	}
-*/
-
