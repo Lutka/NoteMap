@@ -6,7 +6,7 @@
         android:orderInCategory="100"
         android:showAsAction="always"
         android:title="@string/sort"
-        android:icon="@drawable/ic_action_show_sorting_dialog"/>
+        android:icon="@drawable/ic_action_sort"/>
 
 <!--     <item
         android:id="@+id/action_sort_byDistance"
