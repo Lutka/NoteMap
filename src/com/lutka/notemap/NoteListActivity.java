@@ -8,6 +8,8 @@ import java.util.List;
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -20,11 +22,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.text.AlteredCharSequence;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.view.MenuItem;
@@ -32,9 +37,17 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class NoteListActivity extends NoteCollectionActivity implements OnItemClickListener, OnItemLongClickListener
 {
+	private static final int SORT_BY_ALPHABET = 1;
+
+	private static final int SORT_BY_DATE = 3;
+
+	private static final int SORT_BY_DISTANCE = 2;
+
+	public static final String PREF_SORTING_OPTION = "sortingOption";
+
 	private ListView listView;
 	
-	int sortingOption = 1;
+	int sortingOption;
 	Location location;
 
 	@Override
@@ -49,8 +62,8 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 		listView = (ListView) findViewById(android.R.id.list);		
 		listView.setOnItemClickListener(this);
 		
-		/*SharedPreferences sharedPreferences = this.getPreferences(Context.MODE_PRIVATE);
-		sortAlphabeticly = sharedPreferences.getBoolean(key, false);*/	
+		SharedPreferences sharedPreferences = this.getPreferences(Context.MODE_PRIVATE);
+		sortingOption = sharedPreferences.getInt(PREF_SORTING_OPTION, SORT_BY_ALPHABET);		
 	}
 	
 	@Override
@@ -78,21 +91,8 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 			setContentView(R.layout.empty_list);
 		}
 		else
-		{
-			listView.setAdapter(new NoteListAdapter(this, new ArrayList<Note>(listOfNotes)));
-		}
-	}
-	
-	private void updateList(List<Note> list)
-	{
-		// display diffrent layout when list is empty
-		if(listOfNotes.isEmpty())
-		{
-			setContentView(R.layout.empty_list);
-		}
-		else
-		{
-			listView.setAdapter(new NoteListAdapter(this, list));
+		{			
+			listView.setAdapter(new NoteListAdapter(this, sortList(sortingOption)));
 		}
 	}
 	
@@ -153,32 +153,16 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 		{
 		case android.R.id.home:
 			NavUtils.navigateUpFromSameTask(this);
-			return true;				
+			return true;		
 			
 		case R.id.action_sort_byDate:
-			menuAction(1);
-			return true;	
-			
-		case R.id.action_sort_byDistance:
-			menuAction(2);
-			return true;
-			
-		case R.id.action_sort_alphabeticly:
-			menuAction(3);
+			showSortingOptions();
 			return true;
 		}
 		
-		updateList();
 		return super.onOptionsItemSelected(item);
 	}
-	
-	public void menuAction(int sortingOption)
-	{
-		List sorted;
-		sorted = sortList(sortingOption);
-		updateList(sorted);		
-	}
-	
+
 	//sort hashSet
 	private List<Note> sortList(int sortOption)
 	{
@@ -191,11 +175,13 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 		List<Note> list = new ArrayList<Note>(listOfNotes);
 		
 		// ordinary sort by date = id
-		if (sortingOption == 3)Collections.sort(list);
-		
-		// by distance
-		else if(sortingOption == 2)
-		{
+		switch (sortingOption)
+		{		
+		case SORT_BY_ALPHABET:
+			Collections.sort(list);
+			break;
+			
+		case SORT_BY_DISTANCE:		
 			// compare by distance to users location
 			Collections.sort(list, new Comparator<Note>()
 			{
@@ -208,11 +194,10 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 					return distanceTo(latLngNote1).compareTo(distanceTo(latLngNote2));
 				}
 			});
-		}
+			break;
 		
-		// alphabetically
-		else
-		{
+		case SORT_BY_DATE:
+		
 		Collections.sort(list, new Comparator<Note>()
 		{
 			@Override
@@ -220,7 +205,7 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 			{
 				return note1.id.compareTo(note2.id);
 			}
-		});
+		});		
 		}
 		return list;
 	}
@@ -292,24 +277,19 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 		alert.show();
 	}	
 	
-/*	@Override
+	@Override
 	public void onDestroy()
-	{
+	{			
+			Editor preferencesEditor = this.getPreferences(Context.MODE_PRIVATE).edit();	
 			
-			Editor preferencesEditor = getActivity().getPreferences(Context.MODE_PRIVATE).edit();		
-		
-			preferencesEditor.putString("valueIn", valueIn.getText().toString());
-			preferencesEditor.putInt("spinnerProduct", spinnerProduct.getSelectedItemPosition());
-			preferencesEditor.putInt("spinnerIn", spinnerIn.getSelectedItemPosition());
-			preferencesEditor.putInt("spinnerOut", spinnerOut.getSelectedItemPosition());
-			
+			preferencesEditor.putInt(PREF_SORTING_OPTION, sortingOption);
 			preferencesEditor.commit();
-		
-		
+			
 		super.onDestroy();
-	}*/
+	}
 	
-	private void getLocation() {
+	private void getLocation() 
+	{
 	    // Get the location manager
 	    LocationManager locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
 	    double lat,lon;
@@ -334,6 +314,121 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 	        lon = -1.0;	        
 	    }
 		return;
-	}
+	}	
+	
+	public void showSortingOptions()
+	{
+		final CharSequence [] items = {getString(R.string.sort_by_date), getString(R.string.sort_by_distance),
+				getString(R.string.sort_by_alphabet)};
+		
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+		alert.setTitle(R.string.sort_by);		
+		
+		alert.setItems(items, new DialogInterface.OnClickListener()
+		{			
+			@Override
+			public void onClick(DialogInterface dialog, int item)
+			{
+				 // sortingOption = item+1;
+			        
+			        switch (item)
+					{					
+					case 0:
+						sortingOption = SORT_BY_DATE;
+						updateList();
+						break;
+						
+					case 1:
+						sortingOption = SORT_BY_DISTANCE;
+						updateList();	
+						break;
+						
+					case 2:
+						sortingOption = SORT_BY_ALPHABET;
+						updateList();	
+						break;
+					}
+				
+				Toast.makeText(getApplicationContext(), "List sorted", Toast.LENGTH_SHORT).show();				
+			}
+		});
+		alert.show();
 
+	/*	alert.setNegativeButton(android.R.string.cancel,null); 
+		alert.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() 
+		{
+		    public void onClick(DialogInterface dialog, int whichButton) 
+		    {
+		    	deleteNote(currentNote, false);				
+				refreshListOfNotes();
+		    }
+		});
+		alert.show();*/
+	}
+	public void setItems()
+	{
+		
+		final CharSequence[] items = {"Red", "Green", "Blue"};
+
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Pick a color");
+		builder.setItems(items, new DialogInterface.OnClickListener() 
+		{
+		    public void onClick(DialogInterface dialog, int item) {
+		        Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
+		        
+		        sortingOption = item+1;
+		        
+		        switch (item)
+				{					
+				case SORT_BY_DATE -1:
+					sortingOption = SORT_BY_DATE;
+					updateList();
+					break;
+					
+				case SORT_BY_DISTANCE-1:
+					sortingOption = SORT_BY_DISTANCE;
+					updateList();	
+					break;
+					
+				case SORT_BY_ALPHABET -1:
+					sortingOption = SORT_BY_ALPHABET;
+					updateList();	
+					break;
+				}
+		    }
+		});
+		AlertDialog alert = builder.create();
+	}
 }
+
+		
+	
+	/*void showSortDialog(Context context, final OnItemClickListener itemClickListener)
+	{
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View dialogView = inflater.inflate(R.layout.sort_selection_dialog, null);
+
+		TextView sortAlphabetically = (TextView) findViewById(R.id.sort_by_alphabet);
+		TextView sortByDate = (TextView) findViewById(R.id.sort_by_date);
+		TextView sortByDistance = (TextView) findViewById(R.id.sort_by_distance);
+		
+		AlertDialog.Builder builder = new Builder(context);
+		builder.setView(dialogView).setTitle(R.string.change_note_pin);	
+		final Dialog dialog = builder.create();
+		
+		gridIcons.setOnItemClickListener(new OnItemClickListener() 
+		{
+			@Override
+			public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) 
+			{
+				Integer pinName = (Integer) adapterView.getItemAtPosition(position);
+				setPin(pinName);
+				itemClickListener.onItemClick(adapterView, view, position, id);
+				dialog.dismiss();
+			}
+		});
+		dialog.show();
+	}
+*/
+

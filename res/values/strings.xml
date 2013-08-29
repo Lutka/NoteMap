@@ -30,5 +30,14 @@
     <string name="show_list_of_notes">Show list of notes</string>
     <string name="n_notes_imported">%s notes imported to database.</string>
     <string name="empty_list">List is empty</string>
+        
+    <!-- added 29.08.2013 -->
+    
+    <string  name="sort">Sort</string>
+    <string  name="sort_by">Sort by</string>
+    <string name="sort_by_date">Date</string>
+    <string name="sort_by_distance">Distance</string>
+    <string name="sort_by_alphabet">Alphabetically</string>
+    
 
 </resources>

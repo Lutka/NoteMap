@@ -112,14 +112,12 @@ public class NoteActivity extends SherlockActivity
 		}
 		if(drawable == null) actionBar.setIcon(R.drawable.ic_launcher);
 		else actionBar.setIcon(drawable);
-	}
-	
+	}	
 	
 	void showPinDialog()
 	{
 		currentNote.showPinDialog(this, new OnItemClickListener()
 		{
-
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3)

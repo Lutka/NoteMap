@@ -27,6 +27,13 @@
     <string name="title_activity_note_list">Notatki</string>
     <string name="show_list_of_notes">Lista notatek</string>
     <string name="empty_list">Lista jest pusta</string>
+           
+    <!-- added 29.08.2013 -->
     
+    <string name="sort">Sortuj</string>
+    <string  name="sort">Sortuj względem</string>
+    <string name="sort_by_date">Daty</string>
+    <string name="sort_by_distance">Odległości</string>
+    <string name="sort_by_alphabet">Alfabetycznie</string>
     
 </resources>

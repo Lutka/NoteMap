@@ -4,10 +4,11 @@
      <item
         android:id="@+id/action_sort_byDate"
         android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="Sort by date"/>
+        android:showAsAction="always"
+        android:title="@string/sort"
+        android:icon="@drawable/ic_action_show_sorting_dialog"/>
 
-    <item
+<!--     <item
         android:id="@+id/action_sort_byDistance"
         android:orderInCategory="100"
         android:showAsAction="never"
@@ -17,5 +18,5 @@
         android:id="@+id/action_sort_alphabeticly"
         android:orderInCategory="100"
         android:showAsAction="never"
-        android:title="Sort alphabeticly"/>
+        android:title="Sort alphabeticly"/> -->
 </menu>
