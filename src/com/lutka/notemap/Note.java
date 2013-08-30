@@ -30,7 +30,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.lutka.notemap.AddressFinder.OnAddressFoundListener;
 import com.michaldabski.msqlite.Annotations.PrimaryKey;
 
-public class Note implements Serializable
+public class Note implements Serializable, Comparable<Note>
 {
 	private static final long serialVersionUID = 1L;
 	
@@ -375,6 +375,12 @@ public class Note implements Serializable
 	public String toString()
 	{
 		return this.noteSubTitle;
+	}
+
+	@Override
+	public int compareTo(Note anotherNote)
+	{		
+		return this.noteSubTitle.compareTo(anotherNote.noteSubTitle);
 	}
 
 }

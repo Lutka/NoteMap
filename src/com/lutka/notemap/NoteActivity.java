@@ -10,11 +10,13 @@ import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnCreateContextMenuListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.actionbarsherlock.ActionBarSherlock.OnCreateOptionsMenuListener;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
@@ -94,6 +96,8 @@ public class NoteActivity extends SherlockActivity
 		setupActionBar();
 	}
 	
+
+	
 	void updateIcon()
 	{
 		ActionBar actionBar = getSupportActionBar();
@@ -108,14 +112,12 @@ public class NoteActivity extends SherlockActivity
 		}
 		if(drawable == null) actionBar.setIcon(R.drawable.ic_launcher);
 		else actionBar.setIcon(drawable);
-	}
-	
+	}	
 	
 	void showPinDialog()
 	{
 		currentNote.showPinDialog(this, new OnItemClickListener()
 		{
-
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3)
@@ -193,8 +195,6 @@ public class NoteActivity extends SherlockActivity
 		    }
 		});
 		alert.show();
-		
-		// tu powinna sie ladowac od nowa lista notatek
 	}
 	
 	// what happen when back Button is pressed - the note should be saved
