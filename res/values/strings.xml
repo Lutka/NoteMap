@@ -37,7 +37,7 @@
     <string  name="sort_by">Sort by</string>
     <string name="sort_by_date">Date</string>
     <string name="sort_by_distance">Distance</string>
-    <string name="sort_by_alphabet">Alphabetically</string>
+    <string name="sort_by_alphabet">Title</string>
     
 
 </resources>
