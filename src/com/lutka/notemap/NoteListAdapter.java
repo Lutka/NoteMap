@@ -18,14 +18,15 @@ public class NoteListAdapter extends ArrayAdapter<Note>
 	private static class ViewHolder
 	{
 		ImageView noteMarker;
-		TextView tvNoteTitle, tvNoteSubtitle, tvNoteDescription;
+		TextView tvNoteTitle, tvNoteSubtitle, tvNoteDescription, tvDistance;
 		
 		public ViewHolder(View view)
 		{
 			noteMarker = (ImageView) view.findViewById(R.id.ivNoteMarker);
 			tvNoteTitle = (TextView) view.findViewById(R.id.tvNoteTitle);
 			tvNoteSubtitle = (TextView) view.findViewById(R.id.tvNoteSubtitle);
-			tvNoteDescription = (TextView) view.findViewById(R.id.tvNoteDescription);			
+			tvNoteDescription = (TextView) view.findViewById(R.id.tvNoteDescription);
+			tvDistance = (TextView) view.findViewById(R.id.tvDistance);
 		}
 	}
 
@@ -72,6 +73,11 @@ public class NoteListAdapter extends ArrayAdapter<Note>
 		holder.tvNoteTitle.setText(note.getNoteTitle());
 		holder.tvNoteSubtitle.setText(note.getNoteSubTitle());
 		holder.tvNoteDescription.setText(note.getNoteDestription());
+		
+		if(note.distance.isInfinite())
+			holder.tvDistance.setText("");		
+		else
+			holder.tvDistance.setText(note.getDistance().toString()+" km");	
 		
 		return view;
 	}

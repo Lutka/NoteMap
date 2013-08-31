@@ -40,6 +40,7 @@ public class Note implements Serializable, Comparable<Note>
 	String noteDestription;
 	double latitude, longitude;
 	String noteSubTitle;
+	transient Double distance = Double.POSITIVE_INFINITY;
 	//int cameraZoom;                  
 
 	// holds pin id in the array
@@ -79,16 +80,13 @@ public class Note implements Serializable, Comparable<Note>
 	{
 		return getPinDrawable(context, pinIds[pinId]);
 	}
-	
-	/*public String getMarkerId()
+	public Double getDistance()
 	{
-		return ;
-		
-	}*/
+		return distance;
+	}
 	
 	public Note()
-	{
-		
+	{		
 	}
 		
 	public Note(String noteTitle, String noteSubTitle, String noteDescription,LatLng noteLocation)

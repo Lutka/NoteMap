@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layoutListItem"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical" >
 
     <ImageView
@@ -39,19 +39,30 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvNoteSubtitle"
+            android:layout_toLeftOf="@+id/tvDistance"
             android:layout_toRightOf="@+id/ivNoteMarker"
             android:lines="1"
             android:text="noteDescription" />
 
         <TextView
             android:id="@+id/tvNoteTitle"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/tvNoteDescription"
-            android:layout_toRightOf="@+id/ivNoteMarker"
             android:gravity="right"
             android:text="noteLocation_Title"
+            android:textSize="10dp" />
+
+        <TextView
+            android:id="@+id/tvDistance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tvNoteDescription"
+            android:layout_alignBottom="@+id/tvNoteDescription"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:text="Distance"
             android:textSize="10dp" />
 
 </RelativeLayout>

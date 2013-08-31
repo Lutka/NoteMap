@@ -1,5 +1,6 @@
 package com.lutka.notemap;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -8,34 +9,26 @@ import java.util.List;
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.text.AlteredCharSequence;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.GridView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.view.MenuItem;
 import com.google.android.gms.maps.model.LatLng;
+import com.lutka.notemap.UserLocationProvider.UserLocationListener;
 
-public class NoteListActivity extends NoteCollectionActivity implements OnItemClickListener, OnItemLongClickListener
+public class NoteListActivity extends NoteCollectionActivity implements OnItemClickListener,
+		OnItemLongClickListener, UserLocationListener
 {
 	private static final int SORT_BY_ALPHABET = 1;
 
@@ -45,10 +38,10 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 
 	public static final String PREF_SORTING_OPTION = "sortingOption";
 
-	private ListView listView;
-	
+	private ListView listView;	
 	int sortingOption;
-	Location location;
+	
+	LatLng location;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -63,13 +56,16 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 		listView.setOnItemClickListener(this);
 		
 		SharedPreferences sharedPreferences = this.getPreferences(Context.MODE_PRIVATE);
-		sortingOption = sharedPreferences.getInt(PREF_SORTING_OPTION, SORT_BY_ALPHABET);		
+		sortingOption = sharedPreferences.getInt(PREF_SORTING_OPTION, SORT_BY_ALPHABET);	
+		
+		UserLocationProvider uLocationProvider = new UserLocationProvider(this);
+		
+		uLocationProvider.getUserLocation(this);
 	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu menu)
-	{
-		
+	{		
 		super.onCreateOptionsMenu(menu);
 		getSupportMenuInflater().inflate(R.menu.activity_note_list, menu);
 		
@@ -189,15 +185,17 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 				public int compare(Note note1, Note note2)
 				{
 					LatLng latLngNote1 = new LatLng(note1.latitude, note1.longitude);
-					LatLng latLngNote2 = new LatLng(note2.latitude, note2.longitude);					
+					LatLng latLngNote2 = new LatLng(note2.latitude, note2.longitude);	
 					
-					return distanceTo(latLngNote1).compareTo(distanceTo(latLngNote2));
+					note1.distance = distanceTo(latLngNote1);
+					note2.distance = distanceTo(latLngNote2);
+					
+					return (note1.distance).compareTo(note2.distance);
 				}
 			});
 			break;
 		
-		case SORT_BY_DATE:
-		
+		case SORT_BY_DATE:		
 		Collections.sort(list, new Comparator<Note>()
 		{
 			@Override
@@ -211,9 +209,8 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 	}
 	
 	public Double distanceTo(LatLng point)
-	{
-		getLocation();
-		return distance(point, new LatLng(location.getLatitude(), location.getLongitude()));
+	{		
+		return distance(point, location);
 	}
 	public static double distance(LatLng from, LatLng to) 
 	{
@@ -231,17 +228,8 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 	   Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
 	   Math.sin(dLon/2) * Math.sin(dLon/2);
 	   double c = 2 * Math.asin(Math.sqrt(a));
-	   return 6366000 * c;
-	}
-	
-	public List <Note> sortListByLocation (Location location, Collection <Note> listOfNotes)
-	{
-		double latitude = location.getLatitude();
-		double longitude = location.getLongitude();
-		LatLng latLng = new LatLng(latitude, longitude);
-		
-		
-		return null;
+	   double distance = 6366000 * c;
+	   return distanceInKm(distance);
 	}
 
 	@Override
@@ -288,34 +276,7 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 		super.onDestroy();
 	}
 	
-	private void getLocation() 
-	{
-	    // Get the location manager
-	    LocationManager locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
-	    double lat,lon;
-	    Criteria criteria = new Criteria();
-	    String bestProvider = locationManager.getBestProvider(criteria, false);
-	    location = locationManager.getLastKnownLocation(bestProvider);
-	    LocationListener loc_listener = new LocationListener() 	    
-	    {
-	        public void onLocationChanged(Location l) {}
-	        public void onProviderEnabled(String p) {}
-	        public void onProviderDisabled(String p) {}
-	        public void onStatusChanged(String p, int status, Bundle extras) {}
-	    };
-	    locationManager.requestLocationUpdates(bestProvider, 0, 0, loc_listener);
-	    location = locationManager.getLastKnownLocation(bestProvider);
-	    try {
-	        lat = location.getLatitude();
-	        lon = location.getLongitude();
-	        
-	    } catch (NullPointerException e) {
-	        lat = -1.0;
-	        lon = -1.0;	        
-	    }
-		return;
-	}	
-	
+
 	public void showSortingOptions()
 	{
 		final CharSequence [] items = {getString(R.string.sort_by_date), getString(R.string.sort_by_distance),
@@ -338,18 +299,37 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 						
 					case 1:
 						sortingOption = SORT_BY_DISTANCE;
-						updateList();	
+						if(location == null) 
+							Toast.makeText(getApplicationContext(), getString(R.string.location_unavailable), Toast.LENGTH_SHORT).show();
+						else updateList();	
 						break;
 						
 					case 2:
 						sortingOption = SORT_BY_ALPHABET;
 						updateList();	
 						break;
-				}
-		        
+				}		        
 				//Toast.makeText(getApplicationContext(), "List sorted", Toast.LENGTH_SHORT).show();				
 			}
 		});
 		alert.show();
+	}
+
+	@Override
+	public void onLocationAcquired(LatLng latLng)
+	{
+		location = latLng;
+		
+		if(sortingOption == SORT_BY_DISTANCE)
+		{
+			sortList(SORT_BY_DISTANCE);
+		}
+	}
+	public static double distanceInKm(double distance)
+	{		
+		double distanceKm;
+		distanceKm = distance /1000;
+		DecimalFormat decimalFormat = new DecimalFormat("#.##");
+		return Double.parseDouble(decimalFormat.format(distanceKm));
 	}
 }

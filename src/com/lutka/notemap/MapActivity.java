@@ -434,5 +434,4 @@ public class MapActivity extends NoteCollectionActivity implements OnMapClickLis
 		});
 		return false;
 	}
-
 }
