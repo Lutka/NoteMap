@@ -67,7 +67,8 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 	public boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu menu)
 	{		
 		super.onCreateOptionsMenu(menu);
-		getSupportMenuInflater().inflate(R.menu.activity_note_list, menu);
+		if(listOfNotes.size() != 0)
+			getSupportMenuInflater().inflate(R.menu.activity_note_list, menu);
 		
 		return true;
 	}
