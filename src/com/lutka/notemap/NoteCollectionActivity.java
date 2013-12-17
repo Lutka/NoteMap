@@ -1,7 +1,6 @@
 package com.lutka.notemap;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -19,7 +18,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
@@ -48,15 +46,9 @@ public abstract class NoteCollectionActivity extends SherlockFragmentActivity
 	protected void loadNotes()
 	{
 		listOfNotes.clear();
-		try
-		{
-			List<Note> notes = databaseHelper.selectAll(Note.class);
-			this.listOfNotes.addAll(notes);
-			Log.i("NoteMap", "Notes loaded: "+String.valueOf(notes.size()));
-		} catch (InstantiationException e)
-		{
-			e.printStackTrace();
-		}
+		List<Note> notes = databaseHelper.selectAll(Note.class);
+		this.listOfNotes.addAll(notes);
+		Log.i("NoteMap", "Notes loaded: "+String.valueOf(notes.size()));
 	}
 
 	/**
