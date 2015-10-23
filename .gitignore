@@ -21,3 +21,8 @@ local.properties
 project.properties
 Thumbs.db
 project.properties
+.idea/
+.gradle/
+*.iml
+import-summary.txt
+app/build/
