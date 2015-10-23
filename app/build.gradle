@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.lutka.notemap"
-        minSdkVersion 8
+        minSdkVersion 9
         targetSdkVersion 17
     }
 
@@ -20,5 +20,7 @@ android {
 
 dependencies {
     compile 'com.android.support:support-v4:21.0.3'
+    compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
+    compile 'com.google.android.gms:play-services:4.2.+'
     compile files('libs/msqlite.jar')
 }
