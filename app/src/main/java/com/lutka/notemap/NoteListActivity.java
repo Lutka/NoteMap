@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
@@ -16,13 +17,17 @@ import android.content.SharedPreferences.Editor;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.actionbarsherlock.view.ActionProvider;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.android.gms.maps.model.LatLng;
 import com.lutka.notemap.UserLocationProvider.UserLocationListener;
@@ -42,6 +47,7 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 	int sortingOption;
 	
 	LatLng location;
+	EditText editSearch;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -69,9 +75,50 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 		super.onCreateOptionsMenu(menu);
 		if(listOfNotes.size() != 0)
 			getSupportMenuInflater().inflate(R.menu.activity_note_list, menu);
+
+		final MenuItem item = menu.findItem(R.id.menu_search);
+		item.setOnActionExpandListener(new MenuItem.OnActionExpandListener()
+		{
+			@Override
+			public boolean onMenuItemActionExpand(MenuItem item)
+			{
+				return true;
+			}
+
+			@Override
+			public boolean onMenuItemActionCollapse(MenuItem item)
+			{
+				editSearch.setText("");
+				return true;
+			}
+		});
+		editSearch = (EditText) item.getActionView();
+		editSearch.addTextChangedListener(textWatcher);
 		
 		return true;
 	}
+
+	private TextWatcher textWatcher = new TextWatcher()
+	{
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count, int after)
+		{
+
+		}
+
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before, int count)
+		{
+
+		}
+
+		@Override
+		public void afterTextChanged(Editable s)
+		{
+			String text = editSearch.getText().toString().toLowerCase(Locale.getDefault());
+			((NoteListAdapter) listView.getAdapter()).getFilter().filter(text);
+		}
+	};
 	
 	@Override
 	protected void loadNotes()

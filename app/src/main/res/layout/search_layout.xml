@@ -5,6 +5,7 @@
           android:cursorVisible="true"
           android:hint="@string/search_hint"
           android:imeOptions="actionDone"
-          android:inputType="text" >
+          android:inputType="text">
 
+    <requestFocus/>
 </EditText>

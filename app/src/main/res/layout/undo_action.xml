@@ -6,8 +6,7 @@
     android:layout_gravity="center_horizontal"
     android:gravity="center"
     android:padding="3dp"
-    android:background="@drawable/rectangle"
-    >
+    android:background="@drawable/rectangle">
 
     <TextView
         android:id="@+id/tvUndoText"
