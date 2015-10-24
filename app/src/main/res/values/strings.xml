@@ -38,6 +38,8 @@
     <string name="sort_by_date">Date</string>
     <string name="sort_by_distance">Distance</string>
     <string name="sort_by_alphabet">Title</string>
+
+    <string name="search_hint">Search Notes</string>
     
 
 </resources>
