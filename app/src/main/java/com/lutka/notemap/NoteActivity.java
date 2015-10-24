@@ -214,7 +214,6 @@ public class NoteActivity extends SherlockActivity
 	 */
 	public void saveNote()
 	{
-		
 		EditText editTextSubtitle = (EditText) findViewById(R.id.etSubTitle);
 		EditText editText = (EditText) findViewById(R.id.etContent);	
 		

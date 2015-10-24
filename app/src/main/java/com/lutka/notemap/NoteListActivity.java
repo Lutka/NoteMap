@@ -68,7 +68,14 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 		
 		uLocationProvider.getUserLocation(this);
 	}
-	
+
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		setFilter();
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu menu)
 	{		
@@ -115,10 +122,20 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 		@Override
 		public void afterTextChanged(Editable s)
 		{
+			setFilter();
+		}
+	};
+
+	public void setFilter()
+	{
+		if(editSearch != null && listView != null)
+		{
 			String text = editSearch.getText().toString().toLowerCase(Locale.getDefault());
 			((NoteListAdapter) listView.getAdapter()).getFilter().filter(text);
 		}
-	};
+	}
+
+
 	
 	@Override
 	protected void loadNotes()
