@@ -80,8 +80,8 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 	public boolean onCreateOptionsMenu(com.actionbarsherlock.view.Menu menu)
 	{		
 		super.onCreateOptionsMenu(menu);
-		if(listOfNotes.size() != 0)
-			getSupportMenuInflater().inflate(R.menu.activity_note_list, menu);
+
+		getSupportMenuInflater().inflate(R.menu.activity_note_list, menu);
 
 		final MenuItem item = menu.findItem(R.id.menu_search);
 		item.setOnActionExpandListener(new MenuItem.OnActionExpandListener()
@@ -101,7 +101,7 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 		});
 		editSearch = (EditText) item.getActionView();
 		editSearch.addTextChangedListener(textWatcher);
-		
+
 		return true;
 	}
 
@@ -182,7 +182,6 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 	 * Set up the {@link android.app.ActionBar}, if the API is available.
 	 */
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-	
 	private void setupActionBar()
 	{
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
