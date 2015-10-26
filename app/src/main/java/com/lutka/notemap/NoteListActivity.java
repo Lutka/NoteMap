@@ -128,7 +128,7 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 
 	public void setFilter()
 	{
-		if(editSearch != null && listView != null)
+		if(editSearch != null && listView != null && listView.getAdapter() != null)
 		{
 			String text = editSearch.getText().toString().toLowerCase(Locale.getDefault());
 			((NoteListAdapter) listView.getAdapter()).getFilter().filter(text);
@@ -372,8 +372,7 @@ public class NoteListActivity extends NoteCollectionActivity implements OnItemCl
 						sortingOption = SORT_BY_ALPHABET;
 						updateList();	
 						break;
-				}		        
-				//Toast.makeText(getApplicationContext(), "List sorted", Toast.LENGTH_SHORT).show();				
+				}
 			}
 		});
 		alert.show();
